@@ -1,6 +1,2 @@
 # DotNetLittleHelpers
-A set of generic extensions and helper methods
-
-
-
-Test2
+A set of generic extensions and helper methods.
