@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DotNetLittleHelpers
 {
-    //Extension methods for DateTime
+    /// <summary>
+    /// Extension methods for the Date & Time 
+    /// </summary>
     public static class DateTimeExtensions
     {
     }
