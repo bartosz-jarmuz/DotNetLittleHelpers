@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DotNetLittleHelpers.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class DateTimeExtensionsTests
     {
         [TestMethod]
         public void TestFirstDayOfWeek()
@@ -12,7 +12,12 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual(new DateTime(2018, 04,23), new DateTime(2018, 04, 26).FirstDayOfWeek());
             Assert.AreEqual(new DateTime(2018, 04,23), new DateTime(2018, 04, 23).FirstDayOfWeek());
             Assert.AreEqual(new DateTime(2018, 04,22), new DateTime(2018, 04, 26).FirstDayOfWeek(DayOfWeek.Sunday));
-            
+        }
+
+        [TestMethod]
+        public void TestLastDayOfWeek()
+        {
+            Assert.AreEqual(new DateTime(2018, 04, 29), new DateTime(2018, 04, 26).LastDayOfWeek());
         }
     }
 }
