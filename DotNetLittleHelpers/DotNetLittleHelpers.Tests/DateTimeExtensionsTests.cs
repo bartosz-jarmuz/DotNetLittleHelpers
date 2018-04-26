@@ -18,6 +18,6 @@ namespace DotNetLittleHelpers.Tests
         public void TestLastDayOfWeek()
         { 
             Assert.AreEqual(new DateTime(2018, 04, 29), new DateTime(2018, 04, 26).LastDayOfWeek()); 
-        }
+        }  
     }
 }
