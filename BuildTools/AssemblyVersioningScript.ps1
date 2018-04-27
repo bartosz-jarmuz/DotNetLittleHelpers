@@ -41,7 +41,7 @@ elseif (-not (Test-Path $Env:BUILD_SOURCESDIRECTORY))
     Write-Error "BUILD_SOURCESDIRECTORY does not exist: $Env:BUILD_SOURCESDIRECTORY"
     exit 1
 }
-Write-Verbose "BUILD_SOURCESDIRECTORY: $Env:BUILD_SOURCESDIRECTORY"
+Write-Information "BUILD_SOURCESDIRECTORY: $Env:BUILD_SOURCESDIRECTORY"
 
 # Make sure there is a build number
 if (-not $Env:BUILD_BUILDNUMBER)
@@ -49,8 +49,8 @@ if (-not $Env:BUILD_BUILDNUMBER)
     Write-Error ("BUILD_BUILDNUMBER environment variable is missing.")
     exit 1
 }
-Write-Verbose "BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
-
+Write-Host "BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
+Write-Output "BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
 # Get and validate the version data
 $VersionData = [regex]::matches($Env:BUILD_BUILDNUMBER,$VersionRegex)
 switch($VersionData.Count)
