@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DotNetLittleHelpers")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A set of generic helper methods and classes for .NET")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Bartosz Jarmuż")]
 [assembly: AssemblyProduct("DotNetLittleHelpers")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright © Bartosz Jarmuż 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
