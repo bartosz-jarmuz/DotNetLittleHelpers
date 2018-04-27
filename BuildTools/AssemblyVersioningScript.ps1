@@ -41,7 +41,7 @@ elseif (-not (Test-Path $Env:BUILD_SOURCESDIRECTORY))
     Write-Error "BUILD_SOURCESDIRECTORY does not exist: $Env:BUILD_SOURCESDIRECTORY"
     exit 1
 }
-Write-Information "BUILD_SOURCESDIRECTORY: $Env:BUILD_SOURCESDIRECTORY"
+Write-Output "BUILD_SOURCESDIRECTORY: $Env:BUILD_SOURCESDIRECTORY"
 
 # Make sure there is a build number
 if (-not $Env:BUILD_BUILDNUMBER)
@@ -49,7 +49,6 @@ if (-not $Env:BUILD_BUILDNUMBER)
     Write-Error ("BUILD_BUILDNUMBER environment variable is missing.")
     exit 1
 }
-Write-Host "BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
 Write-Output "BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
 # Get and validate the version data
 $VersionData = [regex]::matches($Env:BUILD_BUILDNUMBER,$VersionRegex)
@@ -76,13 +75,13 @@ $files = gci $Env:BUILD_SOURCESDIRECTORY -recurse -include "*Properties*","My Pr
     foreach { gci -Path $_.FullName -Recurse -include AssemblyInfo.* }
 if($files)
 {
-    Write-Verbose "Will apply $NewVersion to $($files.count) files."
+    Write-Output "Will apply $NewVersion to $($files.count) files."
 
     foreach ($file in $files) {
         $filecontent = Get-Content($file)
         attrib $file -r
         $filecontent -replace $VersionRegex, $NewVersion | Out-File $file
-        Write-Verbose "$file.FullName - version applied"
+        Write-Output "$file.FullName - version applied - $NewVersion"
     }
 }
 else
