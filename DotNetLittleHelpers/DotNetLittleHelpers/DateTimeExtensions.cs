@@ -149,5 +149,37 @@
         {
             return dt.FirstDayOfWeek().AddDays(value: 6);
         }
+
+        /// <summary>
+        /// Return string like yesteday, today, tomorrow or 22.02.2018 (3 days ago)
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string ToProximityString(this DateTime date)
+        {
+            if (date.Date == DateTime.Today.Date)
+            {
+                return "TODAY";
+            }
+            else if (date.Date == DateTime.Today.Date.AddDays(1))
+            {
+                return "TOMORROW";
+            }
+            else if (date.Date == DateTime.Today.Date.Subtract(TimeSpan.FromDays(1)))
+            {
+                return "YESTERDAY";
+            }
+            else
+            {
+                if (date.Date > DateTime.Today.Date)
+                {
+                    return $" ({(date.Date - DateTime.Today.Date).TotalDays} days ahead)";
+                }
+                else
+                {
+                    return $" ({(DateTime.Today.Date - date.Date).TotalDays} days ago)";
+                }
+            }
+        }
     }
 }

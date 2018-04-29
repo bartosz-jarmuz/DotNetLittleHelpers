@@ -1,5 +1,8 @@
 ﻿namespace DotNetLittleHelpers
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class MiscExtensions
     {
         /// <summary>
@@ -11,6 +14,26 @@
         {
             string suffix = number.GetOrdinalSuffix();
             return number + suffix;
+        }
+
+        /// <summary>
+        /// Select distinct elements based on the provided selector
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey> (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
         }
 
         /// <summary>

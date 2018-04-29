@@ -50,5 +50,25 @@ namespace DotNetLittleHelpers.Tests
             date2 = new DateTime(2018, 03, 04);
             Assert.IsTrue(date1.DatesAreInTheSameWeekOfYear(date2));
         }
+
+        [TestMethod]
+        public void DateStringifierTests()
+        {
+            var text = DateTime.Today.ToProximityString();
+            Assert.IsTrue(text.ToLower().Contains("today"));
+
+            text = DateTime.Today.AddDays(1).ToProximityString();
+            Assert.IsTrue(text.ToLower().Contains("tomorrow"));
+
+            text = DateTime.Today.AddDays(5).ToProximityString();
+            Assert.IsTrue(text.ToLower().Contains("5 days ahead"));
+
+            text = DateTime.Today.Subtract(TimeSpan.FromDays(1)).ToProximityString();
+            Assert.IsTrue(text.ToLower().Contains("yesterday"));
+
+            text = DateTime.Today.Subtract(TimeSpan.FromDays(3)).ToProximityString();
+            Assert.IsTrue(text.ToLower().Contains("3 days ago"));
+
+        }
     }
 }
