@@ -62,5 +62,34 @@
             }
             return match.Groups[1].Value + domainName;
         }
+
+        /// <summary>
+        /// Converts the first character to lower case - CultureInvariant
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToLowerFirstChar(this string input)
+        {
+            if (input == null)
+                return null;
+            if (input == "")
+                return "";
+           return Char.ToLowerInvariant(input[0]) + input.Substring(1);
+        }
+
+        /// <summary>
+        /// Converts the first character to upper case - CultureInvariant
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToUpperFirstChar(this string input)
+        {
+            if (input == null)
+                return null;
+            if (input == "")
+                return "";
+            return char.ToUpperInvariant(input[0]) + input.Substring(1);
+        }
+
     }
 }

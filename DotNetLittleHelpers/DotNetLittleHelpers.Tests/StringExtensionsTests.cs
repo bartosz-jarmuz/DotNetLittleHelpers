@@ -26,9 +26,27 @@ namespace DotNetLittleHelpers.Tests
             Assert.IsFalse("j.@server1.proseware.com".IsValidEmail());
             Assert.IsFalse("notemail".IsValidEmail());
             Assert.IsFalse("not.email".IsValidEmail());
+        }
 
+        [TestMethod()]
+        public void ToLowerTest()
+        {
+            Assert.AreEqual("someThing", "SomeThing".ToLowerFirstChar());
+            Assert.AreEqual("s", "S".ToLowerFirstChar());
+            Assert.AreEqual("", "".ToLowerFirstChar());
+            Assert.AreEqual(" ", " ".ToLowerFirstChar());
+            string nullString = null;
+            Assert.AreEqual(null, nullString.ToLowerFirstChar());
+        }
 
-
+        [TestMethod()]
+        public void ToUppperTest()
+        {
+            Assert.AreEqual("SomeThing", "someThing".ToUpperFirstChar());
+            Assert.AreEqual("S", "s".ToUpperFirstChar());
+            Assert.AreEqual(" ", " ".ToUpperFirstChar());
+            string nullString = null;
+            Assert.AreEqual(null, nullString.ToUpperFirstChar());
         }
     }
 }
