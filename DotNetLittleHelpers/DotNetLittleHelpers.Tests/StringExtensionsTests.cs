@@ -42,7 +42,7 @@ namespace DotNetLittleHelpers.Tests
         [TestMethod()]
         public void ToUppperTest()
         {
-            Assert.AreEqual("SomeThing", "someThing".ToUpperFirstChar());
+            Assert.AreEqual("SomeThing", "someThing".ToUpperFirstChar()); 
             Assert.AreEqual("S", "s".ToUpperFirstChar());
             Assert.AreEqual(" ", " ".ToUpperFirstChar());
             string nullString = null;
