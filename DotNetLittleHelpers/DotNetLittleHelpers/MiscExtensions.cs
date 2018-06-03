@@ -82,7 +82,7 @@
             if (source == null)
             {
                 return null;
-            }
+            } 
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
 

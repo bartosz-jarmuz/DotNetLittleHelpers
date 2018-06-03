@@ -65,7 +65,7 @@ namespace DotNetLittleHelpers.Tests
         public class PropertyStringTestObject
         {
             public decimal Number { get; set; }
-            private string OtherName { get; set; }
+            private string OtherName { get; set; } 
 
             public string Name { get; set; }
 
@@ -149,7 +149,6 @@ namespace DotNetLittleHelpers.Tests
             PropertyStringTestObject obj = new PropertyStringTestObject();
             Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
                 obj.GetPropertyInfoString(nameof(PropertyStringTestObject.Number), nameof(PropertyStringTestObject.Name), nameof(PropertyStringTestObject.SomeBoolean), nameof(PropertyStringTestObject.Id), nameof(PropertyStringTestObject.NestedObject)));
-             
 
             Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
                 obj.GetPropertyInfoString()); 
