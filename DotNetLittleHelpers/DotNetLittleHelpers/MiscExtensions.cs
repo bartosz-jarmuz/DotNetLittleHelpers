@@ -86,7 +86,7 @@
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
 
-            Dictionary<string, PropertyInfo> props = type.GetProperties().ToDictionary(p => p.Name, p => p);
+            Dictionary<string, PropertyInfo> props = type.GetProperties().ToList().ToDictionary(p => p.Name, p => p);
             MiscExtensions.AppendPropertyString(source, props, sb);
 
 
