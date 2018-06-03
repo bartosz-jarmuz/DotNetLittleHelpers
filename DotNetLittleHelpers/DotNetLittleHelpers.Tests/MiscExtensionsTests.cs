@@ -113,7 +113,7 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
                 obj.GetPropertyInfoString(nameof(TestObject.Number), nameof(TestObject.Name), nameof(TestObject.SomeBoolean), nameof(TestObject.Id), nameof(TestObject.NestedObject)));
             Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
-                obj.GetPropertyInfoString());
+                obj.GetPropertyInfoString()); 
         }
 
     }
