@@ -51,9 +51,21 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual("th", 56776.GetOrdinalSuffix());
         }
 
-        public class TestObject
+        public class NameIdStringTestObject
+        {
+            public int Id { get; set; }
+            public Guid UserGuid { get; set; }
+            public string Name { get; set; }
+            private string OtherName { get; set; }
+            public string IdStartingProp { get; set; }
+            public string NameOfSomething { get; set; }
+            public string SomethingElse { get; set; }
+        }
+
+        public class PropertyStringTestObject
         {
             public decimal Number { get; set; }
+            private string OtherName { get; set; }
 
             public string Name { get; set; }
 
@@ -65,42 +77,67 @@ namespace DotNetLittleHelpers.Tests
 
             public Guid Id { get; set; }
 
-            public TestObject NestedObject { get; set; }
+            public PropertyStringTestObject NestedObject { get; set; }
 
         }
 
         [TestMethod()]
         public void TestGetPropertyString_IsSourceNull()
         {
-            TestObject obj = null;
+            PropertyStringTestObject obj = null;
             Assert.IsNull(obj.GetPropertyInfoString("Something"));
             Assert.IsNull(obj.GetPropertyInfoString());
+            Assert.IsNull(obj.GetNameAndIdString());
         }
 
         [TestMethod()]
         public void TestGetPropertyString_MissingProperty()
         {
-            TestObject obj = new TestObject();
+            PropertyStringTestObject obj = new PropertyStringTestObject();
             Assert.AreEqual("Name: [*NULL*], SomeRandom: [*NO SUCH PROPERTY*]",
-                obj.GetPropertyInfoString(nameof(TestObject.Name), "SomeRandom"));
+                obj.GetPropertyInfoString(nameof(PropertyStringTestObject.Name), "SomeRandom"));
+        }
+
+        [TestMethod()]
+        public void TestGetNameIdPropertyString()
+        {
+            var obj = new NameIdStringTestObject()
+            {
+                Id = 2,
+                IdStartingProp = "Boo",
+                Name = "JackDaniels",
+                NameOfSomething = "BillyJean",
+                UserGuid = Guid.NewGuid(),
+                SomethingElse = "Elsewhere"
+            };
+            Assert.AreEqual($"Id: [2], UserGuid: [{obj.UserGuid}], Name: [JackDaniels], NameOfSomething: [BillyJean]",
+                obj.GetNameAndIdString());
+        }
+
+        [TestMethod()]
+        public void TestGetNameIdPropertyString_Defaults()
+        {
+            var obj = new NameIdStringTestObject();
+            Assert.AreEqual("Id: [0], UserGuid: [00000000-0000-0000-0000-000000000000], Name: [*NULL*], NameOfSomething: [*NULL*]",
+                obj.GetNameAndIdString());
         }
 
         [TestMethod()]
         public void TestGetPropertyString_HappyPath()
         {
-            TestObject obj = new TestObject()
+            PropertyStringTestObject obj = new PropertyStringTestObject()
             {
                 Number = 3.14M,
                 Name = "Jim Beam",
                 SomeBoolean = true,
                 Id = Guid.NewGuid(),
-                NestedObject = new TestObject()
+                NestedObject = new PropertyStringTestObject()
             };
 
-            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+TestObject]",
-                obj.GetPropertyInfoString( nameof(TestObject.Number), nameof(TestObject.Name), nameof(TestObject.SomeBoolean), nameof(TestObject.Id), nameof(TestObject.NestedObject)));
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject]",
+                obj.GetPropertyInfoString( nameof(PropertyStringTestObject.Number), nameof(PropertyStringTestObject.Name), nameof(PropertyStringTestObject.SomeBoolean), nameof(PropertyStringTestObject.Id), nameof(PropertyStringTestObject.NestedObject)));
 
-            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+TestObject]",
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject]",
                 obj.GetPropertyInfoString());
 
           
@@ -109,12 +146,12 @@ namespace DotNetLittleHelpers.Tests
         [TestMethod()]
         public void TestGetPropertyString_Nulls()
         {
-            TestObject obj = new TestObject();
+            PropertyStringTestObject obj = new PropertyStringTestObject();
             Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
-                obj.GetPropertyInfoString(nameof(TestObject.Number), nameof(TestObject.Name), nameof(TestObject.SomeBoolean), nameof(TestObject.Id), nameof(TestObject.NestedObject)));
+                obj.GetPropertyInfoString(nameof(PropertyStringTestObject.Number), nameof(PropertyStringTestObject.Name), nameof(PropertyStringTestObject.SomeBoolean), nameof(PropertyStringTestObject.Id), nameof(PropertyStringTestObject.NestedObject)));
 
 
-            Assert.AreEqual($"Name: [*NULL*], Number: [0], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
+            Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
                 obj.GetPropertyInfoString()); 
         }
 

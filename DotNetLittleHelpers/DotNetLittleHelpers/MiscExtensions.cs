@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
 
@@ -55,24 +56,15 @@
             }
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
-            for (int index = 0; index < propertyNames.Length; index++)
-            {
-                string propertyName = propertyNames[index];
-                PropertyInfo propertyInfo = type.GetProperty(propertyName);
-                if (propertyInfo != null)
-                {
-                    sb.Append($"{propertyName}: [{propertyInfo.GetValue(source)??"*NULL*"}]");
-                }
-                else
-                {
-                    sb.Append($"{propertyName}: [*NO SUCH PROPERTY*]");
-                }
+            Dictionary<string, PropertyInfo> props = new Dictionary<string, PropertyInfo>();
 
-                if (index < propertyNames.Length-1)
-                {
-                    sb.Append(", ");
-                }
+            foreach (string propertyName in propertyNames)
+            {
+                props.Add(propertyName, type.GetProperty(propertyName));
             }
+            MiscExtensions.AppendPropertyString(source, props, sb);
+
+
 
             return sb.ToString();
         }
@@ -93,19 +85,54 @@
             }
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
-            PropertyInfo[] props = type.GetProperties();
-            for (int index = 0; index < props.Length; index++)
-            {
-                PropertyInfo propertyInfo = props[index];
-                sb.Append($"{propertyInfo.Name}: [{propertyInfo.GetValue(source) ?? "*NULL*"}]");
 
-                if (index < props.Length - 1)
+            Dictionary<string, PropertyInfo> props = type.GetProperties().ToDictionary(p => p.Name, p => p);
+            MiscExtensions.AppendPropertyString(source, props, sb);
+
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets a string of name and values of properties which names contain 'Name' or end with 'Id' (case insensitive) <para/>
+        /// "Name: [JimBeam], UserId: [34]"
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string GetNameAndIdString(this object source)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+            Type type = source.GetType();
+            StringBuilder sb = new StringBuilder();
+           Dictionary<string, PropertyInfo> props = type.GetProperties().Where(x=>x.Name.ToLowerInvariant().Contains("name") || x.Name.EndsWith("Id", StringComparison.InvariantCultureIgnoreCase)).ToDictionary(p=>p.Name, p=>p);
+
+            MiscExtensions.AppendPropertyString(source, props, sb);
+
+            return sb.ToString();
+        }
+
+        private static void AppendPropertyString(object source, Dictionary<string, PropertyInfo> props, StringBuilder sb)
+        {
+            for (int index = 0; index < props.Count; index++)
+            {
+                PropertyInfo propertyInfo = props.ElementAt(index).Value;
+                if (propertyInfo != null)
+                {
+                    sb.Append($"{propertyInfo.Name}: [{propertyInfo.GetValue(source) ?? "*NULL*"}]");
+                }
+                else
+                {
+                    sb.Append($"{props.ElementAt(index).Key}: [*NO SUCH PROPERTY*]");
+                }
+
+                if (index < props.Count - 1)
                 {
                     sb.Append(", ");
                 }
             }
-
-            return sb.ToString();
         }
 
         /// <summary>
