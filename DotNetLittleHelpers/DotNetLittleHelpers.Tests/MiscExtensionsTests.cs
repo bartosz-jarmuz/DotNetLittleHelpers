@@ -2,6 +2,9 @@
 
 namespace DotNetLittleHelpers.Tests
 {
+    using System;
+    using System.Reflection.Emit;
+
     [TestClass()]
     public class MiscExtensionsTests
     {
@@ -47,5 +50,71 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual("th", 16.GetOrdinalSuffix());
             Assert.AreEqual("th", 56776.GetOrdinalSuffix());
         }
+
+        public class TestObject
+        {
+            public decimal Number { get; set; }
+
+            public string Name { get; set; }
+
+            public bool SomeBoolean { get; set; }
+
+#pragma warning disable 169
+            private bool backingBoolean;
+#pragma warning restore 169
+
+            public Guid Id { get; set; }
+
+            public TestObject NestedObject { get; set; }
+
+        }
+
+        [TestMethod()]
+        public void TestGetPropertyString_IsSourceNull()
+        {
+            TestObject obj = null;
+            Assert.IsNull(obj.GetPropertyInfoString("Something"));
+            Assert.IsNull(obj.GetPropertyInfoString());
+        }
+
+        [TestMethod()]
+        public void TestGetPropertyString_MissingProperty()
+        {
+            TestObject obj = new TestObject();
+            Assert.AreEqual("Name: [*NULL*], SomeRandom: [*NO SUCH PROPERTY*]",
+                obj.GetPropertyInfoString(nameof(TestObject.Name), "SomeRandom"));
+        }
+
+        [TestMethod()]
+        public void TestGetPropertyString_HappyPath()
+        {
+            TestObject obj = new TestObject()
+            {
+                Number = 3.14M,
+                Name = "Jim Beam",
+                SomeBoolean = true,
+                Id = Guid.NewGuid(),
+                NestedObject = new TestObject()
+            };
+
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+TestObject]",
+                obj.GetPropertyInfoString( nameof(TestObject.Number), nameof(TestObject.Name), nameof(TestObject.SomeBoolean), nameof(TestObject.Id), nameof(TestObject.NestedObject)));
+
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+TestObject]",
+                obj.GetPropertyInfoString());
+
+          
+        }
+
+        [TestMethod()]
+        public void TestGetPropertyString_Nulls()
+        {
+            TestObject obj = new TestObject();
+            Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
+                obj.GetPropertyInfoString(nameof(TestObject.Number), nameof(TestObject.Name), nameof(TestObject.SomeBoolean), nameof(TestObject.Id), nameof(TestObject.NestedObject)));
+            Assert.AreEqual($"Number: [0], Name: [*NULL*], SomeBoolean: [False], Id: [00000000-0000-0000-0000-000000000000], NestedObject: [*NULL*]",
+                obj.GetPropertyInfoString());
+        }
+
     }
-}
+    }
