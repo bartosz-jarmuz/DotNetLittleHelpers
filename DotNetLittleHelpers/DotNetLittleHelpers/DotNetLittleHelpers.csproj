@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="LinqExtensions\Sum.cs" />
+    <Compile Include="LinqExtensions\MinMax.cs" />
+    <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />
     <Compile Include="MiscExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureString.cs" />

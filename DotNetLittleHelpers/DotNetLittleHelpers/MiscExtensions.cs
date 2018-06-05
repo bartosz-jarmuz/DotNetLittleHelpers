@@ -20,26 +20,6 @@
         }
 
         /// <summary>
-        /// Select distinct elements based on the provided selector
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="keySelector"></param>
-        /// <returns></returns>
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey> (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        {
-            HashSet<TKey> seenKeys = new HashSet<TKey>();
-            foreach (TSource element in source)
-            {
-                if (seenKeys.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
-            }
-        }
-
-        /// <summary>
         /// <para>Get a string of names and values of properties (for logging/display purpose). The format is as follows:</para>
         /// "NameProperty: [JimBeam], SomethingNUll: [*NULL*], NonExistentProperty: [*NO SUCH PROPERTY*], SomeBooleanProperty: [True]"  <para/>
         /// This uses reflection.
