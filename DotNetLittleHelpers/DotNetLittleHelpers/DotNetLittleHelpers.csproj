@@ -52,5 +52,8 @@
     <Compile Include="SecureString.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DotNetLittleHelpers.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
