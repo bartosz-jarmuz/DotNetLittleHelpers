@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A set of generic helper methods and classes for .NET Framework</description>
     <copyright>Copyright © Bartosz Jarmuż 2018</copyright>
-    <tags>helper utility extension linq productivity generic</tags>
+    <tags>helper utility extension linq productivity generic c#</tags>
     <projectUrl>https://github.com/bartosz-jarmuz/DotNetLittleHelpers</projectUrl>
   </metadata>
 </package>
