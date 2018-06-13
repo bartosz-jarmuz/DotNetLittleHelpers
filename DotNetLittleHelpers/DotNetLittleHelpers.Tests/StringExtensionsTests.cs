@@ -14,7 +14,7 @@ namespace DotNetLittleHelpers.Tests
             Assert.IsTrue("jones@ms1.proseware.com".IsValidEmail());
             Assert.IsTrue("js@proseware.com9".IsValidEmail());
             Assert.IsTrue("j.s@server1.proseware.com".IsValidEmail());
-            Assert.IsTrue("\"j\\\"s\\\"\"@proseware.com".IsValidEmail());
+            Assert.IsTrue("\"j\\\"s\\\"\"@proseware.com".IsValidEmail()); 
             Assert.IsTrue("js@contoso.中国".IsValidEmail());
             Assert.IsTrue("j@proseware.com9".IsValidEmail());
             Assert.IsTrue("js#internal@proseware.com".IsValidEmail());
