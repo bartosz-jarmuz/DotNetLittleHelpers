@@ -91,5 +91,37 @@
             return char.ToUpperInvariant(input[0]) + input.Substring(1);
         }
 
+        /// <summary>
+        /// Checks whether a version string is larger than a comparison one. <para/>
+        /// Expects a version in format "1.0.0.0", between 2 and 4 segments
+        /// </summary>
+        /// <param name="currentVersionString"></param>
+        /// <param name="comparisonVersionString"></param>
+        /// <returns></returns>
+        public static bool IsNewerVersionThan(this string currentVersionString, string comparisonVersionString)
+        {
+            currentVersionString.CheckArgumentNull(nameof(currentVersionString));
+            comparisonVersionString.CheckArgumentNull(nameof(comparisonVersionString));
+            Version v1;
+            Version v2;
+            try
+            {
+               v1 = Version.Parse(currentVersionString);
+            }
+            catch(ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{currentVersionString}] as Version.", ex);
+            }
+            try
+            {
+                v2 = Version.Parse(comparisonVersionString);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{comparisonVersionString}] as Version.", ex);
+            }
+            v2 = Version.Parse(comparisonVersionString);
+            return v1 > v2;
+        }
     }
 }

@@ -1,12 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
 
 namespace DotNetLittleHelpers.Tests
 {
-    [TestClass()]
+    [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass()]
     public class StringExtensionsTests
     {
 
-        [TestMethod()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void ValidateEmailTest()
         {
             Assert.IsTrue("david.jones@proseware.com".IsValidEmail());
@@ -28,7 +29,7 @@ namespace DotNetLittleHelpers.Tests
             Assert.IsFalse("not.email".IsValidEmail());
         }
 
-        [TestMethod()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void ToLowerTest()
         {
             Assert.AreEqual("someThing", "SomeThing".ToLowerFirstChar());
@@ -39,7 +40,7 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual(null, nullString.ToLowerFirstChar());
         }
 
-        [TestMethod()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void ToUppperTest()
         {
             Assert.AreEqual("SomeThing", "someThing".ToUpperFirstChar()); 
@@ -47,6 +48,25 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual(" ", " ".ToUpperFirstChar());
             string nullString = null;
             Assert.AreEqual(null, nullString.ToUpperFirstChar());
+        }
+
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
+        public void TestVersionComparer_HappyPath()
+        {
+            Assert.IsTrue("1.0.0.0".IsNewerVersionThan("0.9.0.1"));
+            Assert.IsTrue("1.0".IsNewerVersionThan("0.9.9"));
+
+            Assert.IsFalse("1.0".IsNewerVersionThan("1.0.0.1"));
+
+            Assert.IsFalse("1.0.1".IsNewerVersionThan("1.0.1"));
+        }
+
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
+        public void TestVersionComparer_Error()
+        {
+            NUnit.Framework.Assert.That(() => "0".IsNewerVersionThan(null), Throws.Exception.With.Message.Contain("Null parameter passed to method [IsNewerVersionThan]"));
+            NUnit.Framework.Assert.That(() => "0".IsNewerVersionThan("0.9.0"), Throws.Exception.With.Message.Contain("Error while parsing [0] as Version"));
+
         }
     }
 }
