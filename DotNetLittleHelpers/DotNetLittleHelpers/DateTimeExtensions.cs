@@ -6,7 +6,7 @@
     #endregion
 
     /// <summary>
-    ///     Extension methods for the Date & Time
+    ///     Extension methods for the Date &amp; Time
     /// </summary>
     public static class DateTimeExtensions
     {
