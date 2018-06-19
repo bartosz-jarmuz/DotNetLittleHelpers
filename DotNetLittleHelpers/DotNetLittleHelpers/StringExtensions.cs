@@ -4,6 +4,9 @@
     using System.Globalization;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Various extension methods functioning on string
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
