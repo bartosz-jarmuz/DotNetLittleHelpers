@@ -82,14 +82,14 @@ namespace DotNetLittleHelpers.Tests
                 "2.0",
                 "0.9.0",
             };
-            var ordered = list.OrderBy(x => x, new VersionStringComparer()).ToList();
+            var ordered = list.OrderByDescending(x => x, new VersionStringComparer()).ToList();
 
             Assert.AreEqual("0.9.0", ordered[0]);
             Assert.AreEqual("0.9.1", ordered[1]);
             Assert.AreEqual("1.0.0.0", ordered[2]);
             Assert.AreEqual("2.0", ordered[3]);
 
-            ordered = list.OrderByDescending(x => x, new VersionStringComparer()).ToList();
+            ordered = list.OrderBy(x => x, new VersionStringComparer()).ToList();
 
             Assert.AreEqual("0.9.0", ordered[3]);
             Assert.AreEqual("0.9.1", ordered[2]);

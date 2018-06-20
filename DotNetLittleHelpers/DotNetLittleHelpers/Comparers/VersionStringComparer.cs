@@ -8,7 +8,8 @@ namespace DotNetLittleHelpers
     public class VersionStringComparer : IComparer<string>
     {
         /// <summary>
-        /// Returns 1 if first version is larger, -1 if version is smaller and 0 if they are equal
+        /// Returns -1 if first version is larger, 1 if version is smaller and 0 if they are equal.
+        /// It orders from newest to oldest version
         /// </summary>
         /// <param name="firstOne"></param>
         /// <param name="secondOne"></param>
