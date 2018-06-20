@@ -18,7 +18,7 @@ namespace DotNetLittleHelpers
         {
             if (firstOne.IsNewerVersionThan(secondOne))
             {
-                return 1;
+                return -1;
             }
             else if (firstOne == secondOne)
             {
@@ -26,7 +26,7 @@ namespace DotNetLittleHelpers
             }
             else
             {
-                return -1;
+                return 1;
             }
 
         }
