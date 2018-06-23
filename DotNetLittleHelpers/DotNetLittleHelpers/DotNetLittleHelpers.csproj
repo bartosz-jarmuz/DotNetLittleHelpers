@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\ComparisonOperator.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="LinqExtensions\MinMax.cs" />
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />

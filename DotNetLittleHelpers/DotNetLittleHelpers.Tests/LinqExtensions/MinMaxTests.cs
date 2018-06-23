@@ -24,6 +24,119 @@ namespace DotNetLittleHelpers.Tests
             public DateTime? NullableDate { get; set; }
         }
 
+
+        [Test]
+        public void TestMaxMinBy()
+        {
+            List<TestObject> list = new List<TestObject>()
+            {
+                new TestObject() {Number = 4, Date = new DateTime(5000,2,2)},
+                new TestObject() {Number = 1, Date = DateTime.MinValue},
+                new TestObject() {Number = 4, Date = new DateTime(5000,2,2)},
+                new TestObject() {Number = 3, Date = DateTime.MaxValue},
+                new TestObject() {Number = 1, Date = DateTime.MinValue},
+                new TestObject() {Number = 2, Date = new DateTime(2000,2,2)},
+                new TestObject() {Number = 5, Date = new DateTime(4000,2,2)},
+                new TestObject() {Number = 2, Date = new DateTime(2000,2,2)},
+                new TestObject() {Number = 3, Date = DateTime.MaxValue},
+                new TestObject() {Number = 2, Date = new DateTime(2000,2,2)},
+                new TestObject() {Number = 3, Date = DateTime.MaxValue}
+            };
+            var maxObjects = list.MaxBy(x => x.Date).ToList();
+            var minObjects = list.MinBy(x => x.Date).ToList();
+            Assert.AreEqual(3, maxObjects.Count());
+            Assert.IsTrue(maxObjects.All(x=>x.Number ==3));
+           Assert.AreEqual(2, minObjects.Count());
+            Assert.IsTrue(minObjects.All(x => x.Number == 1));
+
+        }
+
+        [Test]
+        public void TestMaxMinFirstBy()
+        {
+            List<TestObject> list = new List<TestObject>()
+            {
+                new TestObject() {Number = 1, Date = DateTime.MinValue},
+                new TestObject() {Number = 2, Date = new DateTime(2000,2,2)},
+                new TestObject() {Number = 2, Date = new DateTime(2000,2,2)},
+                new TestObject() {Number = 3, Date = DateTime.MaxValue}
+            };
+            TestObject maxObj = list.MaxFirstBy(x => x.Date);
+            TestObject minObj = list.MinFirstBy(x => x.Date);
+            Assert.AreEqual(3, maxObj.Number);
+            Assert.AreEqual(1, minObj.Number);
+        }
+
+        [Test]
+        public void TestMaxMinBy_SameValues()
+        {
+            List<TestObject> list = new List<TestObject>()
+            {
+                new TestObject() {Number = 2, String="One"},
+                new TestObject() {Number = 2, String="Two"},
+            };
+            TestObject maxObj = list.MaxFirstBy(x => x.Number);
+            TestObject minObj = list.MinFirstBy(x => x.Number);
+            Assert.AreEqual("One", maxObj.String);
+            Assert.AreEqual("One", minObj.String);
+        }
+
+        [Test]
+        public void TestMaxMinFirstBy_SingleElement()
+        {
+            List<TestObject> list = new List<TestObject>()
+            {
+                new TestObject() {Number = 1},
+            };
+            TestObject maxObj = list.MaxFirstBy(x => x.Number);
+            TestObject minObj = list.MinFirstBy(x => x.Number);
+            Assert.AreEqual(1, maxObj.Number);
+            Assert.AreEqual(1, minObj.Number);
+        }
+
+        [Test]
+        public void TestMaxMinBy_SingleElement()
+        {
+            List<TestObject> list = new List<TestObject>()
+            {
+                new TestObject() {Number = 1},
+            };
+            var maxObjs = list.MaxBy(x => x.Number);
+            var minObjs = list.MinBy(x => x.Number);
+            Assert.AreEqual(1, maxObjs.Single().Number);
+            Assert.AreEqual(1, minObjs.Single().Number);
+        }
+
+        [Test]
+        public void TestMinMaxBy_NullOrEmptyList()
+        {
+            List<TestObject> list = null;
+
+            Assert.Throws<ArgumentNullException>(() => list.MaxBy(x => x.Date));
+            Assert.Throws<ArgumentNullException>(() => list.MinBy(x => x.Date));
+
+            list = new List<TestObject>();
+
+            Assert.That(() => list.MaxBy(x => x.Date), Throws.ArgumentException.With.Message.EqualTo("Source collection is empty."));
+            Assert.That(() => list.MinBy(x => x.Date), Throws.ArgumentException.With.Message.EqualTo("Source collection is empty."));
+
+        }
+
+        [Test]
+        public void TestMinMaxFirstBy_NullOrEmptyList()
+        {
+            List<TestObject> list = null;
+
+            Assert.Throws<ArgumentNullException>(() => list.MaxFirstBy(x => x.Date));
+            Assert.Throws<ArgumentNullException>(() => list.MinFirstBy(x => x.Date));
+
+            list = new List<TestObject> ();
+
+            Assert.That(() => list.MaxFirstBy(x => x.Date), Throws.ArgumentException.With.Message.EqualTo("Source collection is empty."));
+            Assert.That(() => list.MinFirstBy(x => x.Date), Throws.ArgumentException.With.Message.EqualTo("Source collection is empty."));
+
+        }
+
         [Test]
         public void TestActualData()
         {
