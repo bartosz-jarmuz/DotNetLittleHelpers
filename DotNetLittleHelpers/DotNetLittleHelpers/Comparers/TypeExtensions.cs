@@ -11,6 +11,38 @@
     public static class TypeExtensions
     {
         /// <summary>
+        /// Returns true if a property is an IEnumerable (notice that string is Enumerable as well, but is excluded from this logic)
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <returns></returns>
+        public static bool IsNonStringEnumerable(this PropertyInfo pi)
+        {
+            return pi != null && pi.PropertyType.IsNonStringEnumerable();
+        }
+
+        /// <summary>
+        /// Returns true if a object is an IEnumerable (notice that string is Enumerable as well, but is excluded from this logic)
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public static bool IsNonStringEnumerable(this object instance)
+        {
+            return instance != null && instance.GetType().IsNonStringEnumerable();
+        }
+
+        /// <summary>
+        /// Returns true if a type is an IEnumerable (notice that string is Enumerable as well, but is excluded from this logic)
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNonStringEnumerable(this Type type)
+        {
+            if (type == null || type == typeof(string))
+                return false;
+            return typeof(IEnumerable).IsAssignableFrom(type);
+        }
+
+        /// <summary>
         /// Determine whether a type is simple (String, Decimal, DateTime, etc) 
         /// or complex (i.e. custom class with public properties and methods).
         /// </summary>

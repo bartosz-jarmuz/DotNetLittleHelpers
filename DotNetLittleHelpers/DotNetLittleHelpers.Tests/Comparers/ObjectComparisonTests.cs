@@ -44,6 +44,8 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic, throwIfNotEqual: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -96,6 +98,274 @@ namespace DotNetLittleHelpers.Tests
         }
 
         [Test]
+        public void PropertiesAreEqualTest_List_Matches()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject(){DecimalNumber = 1}
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject(){DecimalNumber = 1}
+                }
+            };
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+
+            obj2.NestedList.Clear();
+            obj1.NestedList.Clear();
+
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+
+        }
+
+        [Test]
+        public void PropertiesAreEqualTest_List_Nesting_Difference()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject()
+                    {
+                        DecimalNumber = 1,
+                        SubNestedList = new List<SecondObject>()
+                        {
+                            new SecondObject(){ DecimalNumber = 2, SubNestedList =  new List<SecondObject>()
+                                {
+                                new SecondObject(){ DecimalNumber = 4 }
+                        }}
+                        }
+                    }
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject()
+                    {
+                        DecimalNumber = 1,
+                        SubNestedList = new List<SecondObject>()
+                        {
+                            new SecondObject(){ DecimalNumber = 2, SubNestedList =  new List<SecondObject>()
+                            {
+                                new SecondObject(){ DecimalNumber = 3 }
+                            }}
+                        }
+                    }
+                }
+            };
+
+            Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Object: [SubNestedList]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [4]. Target: [3]", ex.InnerExceptions.Single().Message);
+            }
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true);
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+
+
+        }
+
+
+        [Test]
+        public void PropertiesAreEqualTest_List_Nesting_OK()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject()
+                    {
+                        DecimalNumber = 1,
+                        SubNestedList = new List<SecondObject>()
+                        {
+                            new SecondObject(){ DecimalNumber = 2, SubNestedList =  new List<SecondObject>()
+                                {
+                                new SecondObject(){ DecimalNumber = 3 }
+                        }}
+                        }
+                    }
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject()
+                    {
+                        DecimalNumber = 1,
+                        SubNestedList = new List<SecondObject>()
+                        {
+                            new SecondObject(){ DecimalNumber = 2, SubNestedList =  new List<SecondObject>()
+                            {
+                                new SecondObject(){ DecimalNumber = 3 }
+                            }}
+                        }
+                    }
+                }
+            };
+
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true);
+
+        }
+
+
+        [Test]
+        public void PropertiesAreEqualTest_List_DifferentCounts()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject() {DecimalNumber = 1}
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject() {DecimalNumber = 1},
+                    new SecondObject() {DecimalNumber = 2},
+                    new SecondObject() {DecimalNumber = 3},
+                }
+            };
+
+            Assert.False(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Type: [TestObject]. Property: [NestedList]. SourceListCount: [1]. TargetListCount: [3]", ex.InnerExceptions.Single().Message);
+            }
+
+            obj1.NestedList.Add(new SecondObject(){DecimalNumber = 2});
+            obj1.NestedList.Add(new SecondObject(){DecimalNumber = 3});
+            obj1.NestedList.Add(new SecondObject(){DecimalNumber = 4});
+            Assert.False(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Type: [TestObject]. Property: [NestedList]. SourceListCount: [4]. TargetListCount: [3]", ex.InnerExceptions.Single().Message);
+            }
+
+            Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+
+        }
+
+        [Test]
+        public void PropertiesAreEqualTest_List_Nulls()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject(){DecimalNumber = 1}
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+            };
+
+            Assert.False(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Type: [TestObject]. Property: [NestedList]. SourceListCount: [1]. TargetListCount: [NULL]", ex.InnerExceptions.Single().Message);
+            }
+
+            obj2.NestedList = new List<SecondObject>(){new SecondObject(){DecimalNumber = 2}};
+            obj1.NestedList = null;
+
+            Assert.False(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Type: [TestObject]. Property: [NestedList]. SourceListCount: [NULL]. TargetListCount: [1]", ex.InnerExceptions.Single().Message);
+            }
+
+            Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+
+        }
+
+        [Test]
+        public void PropertiesAreEqualTest_List_DifferentValues()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject(){DecimalNumber = 1}
+                }
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                NestedList = new List<SecondObject>()
+                {
+                    new SecondObject(){DecimalNumber = 13}
+                }
+            };
+
+            Assert.False(obj1.PublicInstancePropertiesAreEqual(obj2, recursiveValidation: true));
+
+            try
+            {
+                obj1.ThrowIfPublicPropertiesNotEqual(obj2, recursiveValidation: true);
+                Assert.Fail("Error expected");
+            }
+            catch (AggregateException ex)
+            {
+                Assert.AreEqual("Object: [NestedList]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [1]. Target: [13]", ex.InnerExceptions.Single().Message);
+            }
+
+
+        }
+
+        [Test]
         public void PropertiesAreEqualTest_IncludeAndIgnoreList()
         {
             var obj1 = new TestObject()
@@ -121,6 +391,25 @@ namespace DotNetLittleHelpers.Tests
         }
 
         [Test]
+        public void PropertiesAreEqualTest_AreDifferent_Simple()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 22,
+                Text = "Test",
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 11,
+                Text = "Test",
+            };
+
+            Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2));
+            Assert.That(() => obj1.ThrowIfPublicPropertiesNotEqual(obj2), Throws.Exception.TypeOf<AggregateException>());
+
+        }
+
+        [Test]
         public void PropertiesAreEqualTest_AreDifferent()
         {
             var obj1 = new TestObject()
@@ -137,11 +426,15 @@ namespace DotNetLittleHelpers.Tests
 
             Assert.IsFalse(obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance));
             Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2));
+            Assert.IsFalse(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
             Assert.That(() => obj1.ThrowIfPublicPropertiesNotEqual(obj2), Throws.Exception.TypeOf<AggregateException>());
+            Assert.That(() => obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true), Throws.Exception.TypeOf<AggregateException>());
 
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic, throwIfNotEqual: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -186,6 +479,9 @@ namespace DotNetLittleHelpers.Tests
             Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2));
             obj1.ThrowIfPublicPropertiesNotEqual(obj2);
 
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true);
+
         }
 
         [Test]
@@ -200,6 +496,8 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -207,6 +505,10 @@ namespace DotNetLittleHelpers.Tests
                     "Type: [TestObject]. Property: [NestedObject]. Source: [DotNetLittleHelpers.Tests.ObjectComparisonTests+SecondObject]. Target: [DotNetLittleHelpers.Tests.ObjectComparisonTests+SecondObject]",
                     ex.InnerExceptions.Single().Message);
             }
+
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true);
+
         }
 
         [Test]
@@ -218,7 +520,9 @@ namespace DotNetLittleHelpers.Tests
             obj1.NestedObject = null;
             try
             {
-                obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true, recursiveValidation: true);
+                obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -233,6 +537,8 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true, recursiveValidation: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -248,6 +554,8 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true, recursiveValidation: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -255,6 +563,9 @@ namespace DotNetLittleHelpers.Tests
                     "Object: [NestedObject]. Type: [SecondObject]. Property: [SubNestedObject]. Source: [DotNetLittleHelpers.Tests.ObjectComparisonTests+SecondObject]. Target: [NULL]",
                     ex.InnerExceptions.Single().Message);
             }
+            Assert.IsTrue(obj1.PublicInstancePropertiesAreEqual(obj2, ignoreComplexTypes: true));
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreComplexTypes: true);
+
         }
 
 
@@ -272,6 +583,7 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true, recursiveValidation: true);
+                Assert.Fail("Error expected");
             }
             catch (AggregateException ex)
             {
@@ -290,6 +602,8 @@ namespace DotNetLittleHelpers.Tests
             try
             {
                 obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance, throwIfNotEqual: true, recursiveValidation: true);
+                Assert.Fail("Error expected");
+
             }
             catch (AggregateException ex)
             {
@@ -388,12 +702,19 @@ namespace DotNetLittleHelpers.Tests
             public DateTime? NullableDate { get; set; }
             public SecondObject NestedObject { get; set; }
             private string PrivateStringProperty { get; set; }
+
+            public List<SecondObject> NestedList { get; set; }
         }
 
         public class SecondObject
         {
             public decimal DecimalNumber { get; set; }
             public SecondObject SubNestedObject { get; set; }
+
+            public List<SecondObject> SubNestedList { get; set; }
+
         }
+
+
     }
 }
