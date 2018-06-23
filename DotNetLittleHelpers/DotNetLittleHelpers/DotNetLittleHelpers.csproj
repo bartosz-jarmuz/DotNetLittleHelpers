@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\ComparisonOperator.cs" />
+    <Compile Include="Comparers\ObjectComparison.cs" />
+    <Compile Include="Comparers\TypeExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="LinqExtensions\MinMax.cs" />
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />
