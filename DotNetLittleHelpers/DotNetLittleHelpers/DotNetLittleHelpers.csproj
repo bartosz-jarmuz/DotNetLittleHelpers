@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\RestrictedAccessCollection.cs" />
     <Compile Include="Comparers\ComparisonOperator.cs" />
     <Compile Include="Comparers\ObjectComparison.cs" />
     <Compile Include="Comparers\TypeExtensions.cs" />
