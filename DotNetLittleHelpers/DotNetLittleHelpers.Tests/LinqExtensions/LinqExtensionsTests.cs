@@ -24,30 +24,7 @@ namespace DotNetLittleHelpers.Tests
             public DateTime? NullableDate { get; set; }
         }
 
-        [Test]
-        public void CheckArgumentNullTest_NotNull()
-        {
-            var list = new List<TestObject>();
-            list.Add(new TestObject());
-            list.CheckArgumentNull("list");
-            new TestObject().CheckArgumentNull("obj");
-        }
-
-        [Test]
-        public void CheckArgumentNullTest_Null()
-        {
-            List<TestObject> list = null;
-            try
-            {
-                list.CheckArgumentNull("list");
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("Null parameter passed to method [CheckArgumentNullTest_Null].\r\nParameter name: list", ex.Message);
-                return;
-            }
-            Assert.Fail("Exception expected");
-        }
+       
 
         [Test]
         public void AnyAndNotNull()

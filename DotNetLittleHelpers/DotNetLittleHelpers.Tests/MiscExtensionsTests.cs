@@ -9,6 +9,8 @@ namespace DotNetLittleHelpers.Tests
     public class MiscExtensionsTests
     {
 
+       
+
         [TestMethod()]
         public void GetOrdinalTest()
         {

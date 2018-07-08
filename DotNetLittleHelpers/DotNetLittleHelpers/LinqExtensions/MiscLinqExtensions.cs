@@ -56,19 +56,7 @@
             return !source.HasValue || source.Value.Equals(default(T));
         }
 
-        /// <summary>
-        /// Throws an ArgumentNullException if the argument is null
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="argumentName"></param>
-        /// <param name="methodName"></param>
-        public static void CheckArgumentNull(this object source, string argumentName, [CallerMemberName] string methodName = "")
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(argumentName,$"Null parameter passed to method [{methodName}].");
-            }
-        }
+
 
         /// <summary>
         /// Select distinct elements based on the provided selector

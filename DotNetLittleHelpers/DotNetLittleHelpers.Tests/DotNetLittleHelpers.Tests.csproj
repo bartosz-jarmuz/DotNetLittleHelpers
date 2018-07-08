@@ -56,6 +56,8 @@
     <Compile Include="DateTimeExtensionsTests.cs" />
     <Compile Include="LinqExtensions\MinMaxTests.cs" />
     <Compile Include="LinqExtensions\LinqExtensionsTests.cs" />
+    <Compile Include="ObjectValidationTests.Try.cs" />
+    <Compile Include="ObjectValidationTests.cs" />
     <Compile Include="StringExtensionsTests.cs" />
     <Compile Include="MiscExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
