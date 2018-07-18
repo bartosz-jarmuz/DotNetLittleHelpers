@@ -15,50 +15,6 @@
     public static class LinqExtensions
     {
         /// <summary>
-        /// Returns false if collection is null or empty<para/>
-        /// Syntactic sugar for if (source != null &amp;&amp; source.Any())
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static bool AnyAndNotNull<T>(this IEnumerable<T> source)
-        {
-            if (source == null)
-            {
-                return false;
-            }
-            else
-            {
-                return source.Any();
-            }
-        }
-
-        /// <summary>
-        /// Returns true if collection is null or empty<para/>
-        /// Syntactic sugar for if (source == null || !source.Any())
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
-        {
-            return !source.AnyAndNotNull();
-        }
-
-        /// <summary>
-        /// Returns true if a value type is either null or a default for that type (default(T))
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static bool IsNullOrDefault<T>(this T? source) where T : struct
-        {
-            return !source.HasValue || source.Value.Equals(default(T));
-        }
-
-
-
-        /// <summary>
         /// Select distinct elements based on the provided selector
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
