@@ -50,6 +50,7 @@
     <Compile Include="Comparers\TypeExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="FileSizeExtensions.cs" />
+    <Compile Include="IO\DirectoryInfoExtensions.cs" />
     <Compile Include="IO\FileInfoExtensions.cs" />
     <Compile Include="LinqExtensions\MinMax.cs" />
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />

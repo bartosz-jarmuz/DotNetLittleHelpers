@@ -18,5 +18,14 @@ namespace DotNetLittleHelpers.Tests.IO
             Assert.IsFalse(directoryInfo.Exists());
             Assert.IsFalse(Directory.Exists(directoryInfo.FullName));
         }
+
+        [TestMethod]
+        public void TestAppendPath()
+        {
+            var absoluteDir = new DirectoryInfo(@"c:\dir");
+            var relativeFile = new FileInfo(@"subdir\file");
+
+            Assert.AreEqual(@"c:\dir\file", absoluteDir.CreateFileInfo(relativeFile.Name).FullName);
+        }
     }
 }

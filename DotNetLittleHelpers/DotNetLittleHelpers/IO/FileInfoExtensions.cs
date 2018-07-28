@@ -23,20 +23,4 @@ namespace DotNetLittleHelpers
             return File.Exists(info.FullName);
         }
     }
-
-    /// <summary>
-    /// Extension methods for DirectoryInfo class
-    /// </summary>
-    public static class DirectoryInfoExtensions
-    {
-        /// <summary>
-        /// Verifies whether the file exists at the moment
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        public static bool Exists(this DirectoryInfo info)
-        {
-            return Directory.Exists(info.FullName);
-        }
-    }
 }
