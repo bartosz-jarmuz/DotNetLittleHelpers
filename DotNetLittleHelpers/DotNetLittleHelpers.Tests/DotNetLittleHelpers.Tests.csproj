@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Comparers\ObjectComparisonTests.cs" />
     <Compile Include="DateTimeExtensionsTests.cs" />
+    <Compile Include="IO\DirectoryInfoExtensionsTests.cs" />
+    <Compile Include="IO\FileInfoExtensionsTests.cs" />
     <Compile Include="LinqExtensions\MinMaxTests.cs" />
     <Compile Include="IsNullExtensionsTest.cs" />
     <Compile Include="ObjectValidationTests.Try.cs" />
