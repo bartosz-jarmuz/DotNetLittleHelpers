@@ -20,12 +20,20 @@ namespace DotNetLittleHelpers.Tests.IO
         }
 
         [TestMethod]
-        public void TestAppendPath()
+        public void TestAppendFilePath()
         {
             var absoluteDir = new DirectoryInfo(@"c:\dir");
-            var relativeFile = new FileInfo(@"subdir\file");
 
-            Assert.AreEqual(@"c:\dir\file", absoluteDir.CreateFileInfo(relativeFile.Name).FullName);
+            Assert.AreEqual(@"c:\dir\file", absoluteDir.CreateFileInfo("file").FullName);
+        }
+
+        [TestMethod]
+        public void TestAppendSubDirPath()
+        {
+            var absoluteDir = new DirectoryInfo(@"c:\dir");
+
+            Assert.AreEqual(@"c:\dir\subdir", absoluteDir.CreateSubDirectoryInfo("subdir").FullName);
+            Assert.AreEqual(@"c:\dir\subdir\nested", absoluteDir.CreateSubDirectoryInfo(@"subdir\nested").FullName);
         }
     }
 }
