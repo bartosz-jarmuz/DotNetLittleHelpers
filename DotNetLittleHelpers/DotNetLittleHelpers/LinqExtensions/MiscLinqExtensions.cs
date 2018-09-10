@@ -15,6 +15,35 @@
     public static class LinqExtensions
     {
         /// <summary>
+        /// Returns true if the sequence contains one and only one element which meets the predicate. Otherwise return false
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static bool OneExists<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            source.CheckArgumentNull(nameof(source));
+            bool oneFound = false;
+            foreach (TSource element in source)
+            {
+                if (predicate.Invoke(element))
+                {
+                    if (oneFound)
+                    {
+                        return false;
+                    }
+
+                    oneFound = true;
+                }
+            }
+
+            return oneFound;
+        }
+
+
+        /// <summary>
         /// Select distinct elements based on the provided selector
         /// </summary>
         /// <typeparam name="TSource"></typeparam>

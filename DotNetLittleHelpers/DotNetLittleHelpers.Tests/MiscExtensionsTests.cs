@@ -9,7 +9,20 @@ namespace DotNetLittleHelpers.Tests
     public class MiscExtensionsTests
     {
 
-       
+        [TestMethod()]
+        public void TestOneExists()
+        {
+            var input = new int[] {1, 2, 3, 4, 4};
+
+            Assert.IsTrue(input.OneExists(x=>x == 3));
+            Assert.IsFalse(input.OneExists(x=>x == 4));
+            Assert.IsFalse(input.OneExists(x=>x == 6));
+
+            input = new int[] { };
+
+            Assert.IsFalse(input.OneExists(x => x == 3));
+
+        }
 
         [TestMethod()]
         public void GetOrdinalTest()
