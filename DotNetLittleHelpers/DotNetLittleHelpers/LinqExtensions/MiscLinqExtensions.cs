@@ -22,7 +22,7 @@
         /// <param name="source"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static bool OneExists<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static bool UniqueExists<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             source.CheckArgumentNull(nameof(source));
             bool oneFound = false;

@@ -14,13 +14,13 @@ namespace DotNetLittleHelpers.Tests
         {
             var input = new int[] {1, 2, 3, 4, 4};
 
-            Assert.IsTrue(input.OneExists(x=>x == 3));
-            Assert.IsFalse(input.OneExists(x=>x == 4));
-            Assert.IsFalse(input.OneExists(x=>x == 6));
+            Assert.IsTrue(input.UniqueExists(x=>x == 3));
+            Assert.IsFalse(input.UniqueExists(x=>x == 4));
+            Assert.IsFalse(input.UniqueExists(x=>x == 6));
 
             input = new int[] { };
 
-            Assert.IsFalse(input.OneExists(x => x == 3));
+            Assert.IsFalse(input.UniqueExists(x => x == 3));
 
         }
 
