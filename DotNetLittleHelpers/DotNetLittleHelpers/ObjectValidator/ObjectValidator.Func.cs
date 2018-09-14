@@ -7,9 +7,11 @@ namespace DotNetLittleHelpers
     /// </summary>
     public static partial class ObjectValidator
     {
-       
+
         /// <summary>
         /// Performs the validation function, and if source is null or validation returns false, the 'on error' callback is called
+        /// <para/>
+        /// This is a one-liner syntactic sugar for methods such as TryParse, Convert etc
         /// </summary>
         /// <param name="source"></param>
         /// <param name="validationFunction"></param>
@@ -24,6 +26,8 @@ namespace DotNetLittleHelpers
 
         /// <summary>
         /// Performs the validation function, and if source is null or validation returns false, the 'errorToThrow' is thrown
+        /// <para/>
+        /// This is a one-liner syntactic sugar for methods such as TryParse, Convert etc
         /// </summary>
         /// <param name="source"></param>
         /// <param name="validationFunction"></param>
@@ -38,6 +42,8 @@ namespace DotNetLittleHelpers
 
         /// <summary>
         /// Performs the validation function, and if it returns false, the 'on error' callback is fired
+        /// <para/>
+        /// This is a one-liner syntactic sugar for methods such as TryParse, Convert etc
         /// </summary>
         /// <param name="validationFunction"></param>
         /// <param name="onErrorCallback"></param>
@@ -51,6 +57,8 @@ namespace DotNetLittleHelpers
 
         /// <summary>
         /// Performs the validation function, and if it returns false, the 'errorToThrow' is thrown
+        /// <para/>
+        /// This is a one-liner syntactic sugar for methods such as TryParse, Convert etc
         /// </summary>
         /// <param name="validationFunction"></param>
         /// <param name="errorToThrow"></param>
