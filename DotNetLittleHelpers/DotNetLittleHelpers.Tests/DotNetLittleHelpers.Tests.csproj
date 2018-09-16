@@ -61,6 +61,7 @@
     <Compile Include="ObjectValidationTests.Try.cs" />
     <Compile Include="ObjectValidationTests.cs" />
     <Compile Include="FileSizeExtensionsTests.cs" />
+    <Compile Include="VersionStringExtensionsTests.cs" />
     <Compile Include="StringExtensionsTests.cs" />
     <Compile Include="MiscExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
