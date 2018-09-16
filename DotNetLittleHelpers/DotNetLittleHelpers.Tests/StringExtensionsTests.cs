@@ -57,10 +57,18 @@ namespace DotNetLittleHelpers.Tests
         {
             Assert.IsTrue("1.0.0.0".IsNewerVersionThan("0.9.0.1"));
             Assert.IsTrue("1.0".IsNewerVersionThan("0.9.9"));
+            Assert.IsTrue("1.0".IsNewerOrEqualVersion("0.9.9"));
+            Assert.AreEqual(1, "1.0".CompareVersionStrings("0.9.9"));
 
             Assert.IsFalse("1.0".IsNewerVersionThan("1.0.0.1"));
+            Assert.IsFalse("1.0".IsNewerOrEqualVersion("1.0.0.1"));
+            Assert.AreEqual(-1, "1.0".CompareVersionStrings("1.0.0.1"));
+
 
             Assert.IsFalse("1.0.1".IsNewerVersionThan("1.0.1"));
+            Assert.IsTrue("1.0.1".IsNewerOrEqualVersion("1.0.1"));
+            Assert.AreEqual(0, "1.0.1".CompareVersionStrings("1.0.1"));
+
         }
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]

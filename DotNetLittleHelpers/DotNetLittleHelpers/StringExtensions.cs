@@ -126,5 +126,70 @@
             v2 = Version.Parse(comparisonVersionString);
             return v1 > v2;
         }
+
+        /// <summary>
+        /// Checks whether a version string is larger than or equal to the comparison one. <para/>
+        /// Expects a version in format "1.0.0.0", between 2 and 4 segments
+        /// </summary>
+        /// <param name="currentVersionString"></param>
+        /// <param name="comparisonVersionString"></param>
+        /// <returns></returns>
+
+        public static bool IsNewerOrEqualVersion(this string currentVersionString, string comparisonVersionString)
+        {
+            Version version1;
+            try
+            {
+                version1 = Version.Parse(currentVersionString);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{(object)currentVersionString}] as Version.", (Exception)ex);
+            }
+            try
+            {
+                Version.Parse(comparisonVersionString);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{(object)comparisonVersionString}] as Version.", (Exception)ex);
+            }
+            Version version2 = Version.Parse(comparisonVersionString);
+            if (version1 == version2)
+            {
+                return true;
+            }
+            return version1 > version2;
+        }
+        /// <summary>
+        /// Returns 1 if first version is larger, -1 if version is smaller and 0 if they are equal.
+        /// Expects a version in format "1.0.0.0", between 2 and 4 segments
+        /// </summary>
+        /// <param name="currentVersionString"></param>
+        /// <param name="comparisonVersionString"></param>
+        /// <returns></returns>
+
+        public static int CompareVersionStrings(this string currentVersionString, string comparisonVersionString)
+        {
+            Version version1;
+            try
+            {
+                version1 = Version.Parse(currentVersionString);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{(object)currentVersionString}] as Version.", (Exception)ex);
+            }
+            try
+            {
+                Version.Parse(comparisonVersionString);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{(object)comparisonVersionString}] as Version.", (Exception)ex);
+            }
+            Version version2 = Version.Parse(comparisonVersionString);
+            return version1.CompareTo(version2);
+        }
     }
 }
