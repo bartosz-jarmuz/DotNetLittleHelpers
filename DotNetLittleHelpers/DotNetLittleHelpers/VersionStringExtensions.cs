@@ -53,6 +53,28 @@ namespace DotNetLittleHelpers
             return result >= 0;
         }
 
+        /// <summary>
+        /// Converts a shortened version string such as '1.2' or '1.0.23' into fully-fielded string, e.g. '1.2.0.0' or '1.0.23.0'.
+        /// <para>Standard .NET version comparison will consider 1.0 to be a LOWER version than 1.0.0.0, because missing fields (build, revision) are set to -1 when parsing.</para>
+        /// </summary>
+        /// <param name="versionString"></param>
+        /// <returns></returns>
+        public static string NormalizeVersionString(this string versionString)
+        {
+            versionString.CheckArgumentNull(nameof(versionString));
+            try
+            {
+                var parsed = Version.Parse(versionString);
+                parsed = FixZerosInVersionString(parsed, versionString);
+                return parsed.ToString();
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException($"Error while parsing [{(object)versionString}] as Version.", ex);
+            }
+
+        }
+
         private static Version FixZerosInVersionString(Version version, string versionString)
         {
             if (version.Minor == -1)

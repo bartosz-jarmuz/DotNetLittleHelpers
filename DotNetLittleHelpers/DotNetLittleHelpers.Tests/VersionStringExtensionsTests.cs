@@ -49,6 +49,8 @@ namespace DotNetLittleHelpers.Tests
             Assert.IsFalse("1.0.0".IsNewerVersionThan("1.0.0.0", false));
 
             Assert.IsTrue("1.0.0".IsNewerOrEqualVersion("1.0"));
+            Assert.IsTrue("1.3.0".IsNewerOrEqualVersion("1.3.0.0"));
+            Assert.IsTrue("1.3.0.0".IsNewerOrEqualVersion("1.3.0"));
             Assert.IsTrue("1.0".IsNewerOrEqualVersion("1.0.0.0"));
 
             Assert.IsTrue("1.0.0".IsNewerOrEqualVersion("1.0", false));
@@ -60,6 +62,7 @@ namespace DotNetLittleHelpers.Tests
         {
             Assert.That(() => "1.0".IsNewerVersionThan(null), Throws.Exception.With.Message.Contain("Null parameter passed to method [IsNewerVersionThan]"));
             Assert.That(() => "0".IsNewerVersionThan("0.9.0"), Throws.Exception.With.Message.Contain("Error while parsing [0] as Version"));
+            Assert.That(() => "2".NormalizeVersionString(), Throws.Exception.With.Message.Contain("Error while parsing [2] as Version"));
         }
 
 
@@ -86,6 +89,16 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual("0.9.1", ordered[2]);
             Assert.AreEqual("1.0.0.0", ordered[1]);
             Assert.AreEqual("2.0", ordered[0]);
+        }
+
+        [TestMethod]
+        public void TestStringNormalization()
+        {
+            Assert.AreEqual("0.9.0.0", "0.9".NormalizeVersionString());
+            Assert.AreEqual("0.9.0.0", "0.9.0".NormalizeVersionString());
+            Assert.AreEqual("1.2.0.0", "1.2".NormalizeVersionString());
+            Assert.AreEqual("1.2.0.0", "1.2.0.0".NormalizeVersionString());
+
         }
     }
 }
