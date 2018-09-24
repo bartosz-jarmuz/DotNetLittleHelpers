@@ -33,6 +33,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\DotNetLittleHelpers.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Properties\DotNetLittleHelpersKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -67,6 +73,7 @@
     <Compile Include="Comparers\VersionStringComparer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DotNetLittleHelpersKey.snk" />
     <None Include="Properties\DotNetLittleHelpers.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
