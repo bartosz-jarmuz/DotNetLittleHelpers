@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\ObjectComparisonTests.cs" />
+    <Compile Include="Zip\ZipHelpersTests.cs" />
     <Compile Include="DateTimeExtensionsTests.cs" />
     <Compile Include="IO\DirectoryInfoExtensionsTests.cs" />
     <Compile Include="IO\FileInfoExtensionsTests.cs" />
@@ -68,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Zip\NotAZip.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Zip\ThisIsAZip.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetLittleHelpers\DotNetLittleHelpers.csproj">

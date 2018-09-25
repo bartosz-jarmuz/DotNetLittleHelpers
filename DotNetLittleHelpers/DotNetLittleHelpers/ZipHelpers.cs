@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace DotNetLittleHelpers
 {
@@ -34,7 +37,17 @@ namespace DotNetLittleHelpers
             return IsCompressedData(stream, GzipLeadBytes);
         }
 
+        /// <summary>
+        /// Determines whether stream is a gzip or zip
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <returns><c>true</c> if [is g zip compressed data] [the specified stream]; otherwise, <c>false</c>.</returns>
+        public static bool IsCompressedData(Stream stream)
+        {
+            return IsCompressedData(stream, GzipLeadBytes, ZipLeadBytes);
+        }
 
+      
 
         private static bool IsCompressedData(Stream stream, params int[] bytesOptions)
         {
