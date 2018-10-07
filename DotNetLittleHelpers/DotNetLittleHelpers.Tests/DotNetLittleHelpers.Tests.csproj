@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\ObjectComparisonTests.cs" />
+    <Compile Include="EnumHelpersTests.cs" />
     <Compile Include="Zip\ZipHelpersTests.cs" />
     <Compile Include="DateTimeExtensionsTests.cs" />
     <Compile Include="IO\DirectoryInfoExtensionsTests.cs" />
