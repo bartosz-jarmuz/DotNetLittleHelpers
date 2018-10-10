@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Comparers\ObjectComparisonTests.cs" />
     <Compile Include="EnumHelpersTests.cs" />
+    <Compile Include="LinqExtensions\FilterBuilderTests.cs" />
     <Compile Include="LinqExtensions\QueryableOrderingTest.cs" />
     <Compile Include="Zip\ZipHelpersTests.cs" />
     <Compile Include="DateTimeExtensionsTests.cs" />

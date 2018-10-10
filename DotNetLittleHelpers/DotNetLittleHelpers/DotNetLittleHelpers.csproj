@@ -67,7 +67,9 @@
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />
     <Compile Include="IsNullExtensions.cs" />
     <Compile Include="LinqExtensions\OrderBy\OrderRule.cs" />
-    <Compile Include="LinqExtensions\Where\WhereExpressionBuilder.cs" />
+    <Compile Include="LinqExtensions\FilterBuilder\ComparisonRule.cs" />
+    <Compile Include="LinqExtensions\FilterBuilder\Filter.cs" />
+    <Compile Include="LinqExtensions\FilterBuilder\FilterBuilder.cs" />
     <Compile Include="MiscExtensions.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Try.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Func.cs" />
