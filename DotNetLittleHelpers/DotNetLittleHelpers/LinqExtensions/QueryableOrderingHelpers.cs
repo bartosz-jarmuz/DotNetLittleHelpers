@@ -48,14 +48,27 @@ namespace DotNetLittleHelpers
             return source.OrderByMany(propertyFilters.Select(x => new OrderRule(x.Item1, x.Item2)).ToArray());
         }
 
+
         /// <summary>
-            /// Orders the collection based on number of criteria in sequence
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="source">The source.</param>
-            /// <param name="propertyFilters">The property filters.</param>
-            /// <returns>IOrderedQueryable&lt;T&gt;.</returns>
-            public static IOrderedQueryable<T> OrderByMany<T>(this IQueryable<T> source, params OrderRule[] propertyFilters)
+        /// Orders the collection based on number of criteria in sequence
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="propertyFilters">The property filters.</param>
+        /// <returns>IOrderedQueryable&lt;T&gt;.</returns>
+        public static IOrderedQueryable<T> OrderByMany<T>(this IQueryable<T> source, IEnumerable<Tuple<string, bool>> propertyFilters)
+        {
+            return source.OrderByMany(propertyFilters.Select(x => new OrderRule(x.Item1, x.Item2)).ToArray());
+        }
+
+        /// <summary>
+        /// Orders the collection based on number of criteria in sequence
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="propertyFilters">The property filters.</param>
+        /// <returns>IOrderedQueryable&lt;T&gt;.</returns>
+        public static IOrderedQueryable<T> OrderByMany<T>(this IQueryable<T> source, params OrderRule[] propertyFilters)
         {
             var filters = propertyFilters.ToList();
 

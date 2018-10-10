@@ -83,6 +83,14 @@ namespace DotNetLittleHelpers.Tests
                 new Tuple<string, bool>(nameof(TestObject.Number2), true)
             ).First().Number);
 
+            Assert.AreEqual(1, q.OrderByMany(new List<Tuple<string, bool>>()
+            {
+                new Tuple<string, bool>(nameof(TestObject.Number3), false),
+                new Tuple<string, bool>(nameof(TestObject.String), false),
+                new Tuple<string, bool>(nameof(TestObject.Number2), true)
+            })
+            .First().Number);
+
             Assert.AreEqual(4, q.OrderByMany(new OrderRule(nameof(TestObject.Number3)),
                 new OrderRule(nameof(TestObject.String),true),
                 new OrderRule(nameof(TestObject.Number2), true)
