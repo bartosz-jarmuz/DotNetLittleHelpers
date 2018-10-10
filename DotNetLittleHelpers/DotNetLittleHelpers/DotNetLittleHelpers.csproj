@@ -66,12 +66,13 @@
     <Compile Include="LinqExtensions\MinMax.cs" />
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />
     <Compile Include="IsNullExtensions.cs" />
-    <Compile Include="LinqExtensions\OrderRule.cs" />
+    <Compile Include="LinqExtensions\OrderBy\OrderRule.cs" />
+    <Compile Include="LinqExtensions\Where\WhereExpressionBuilder.cs" />
     <Compile Include="MiscExtensions.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Try.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Func.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LinqExtensions\QueryableOrderingHelpers.cs" />
+    <Compile Include="LinqExtensions\OrderBy\QueryableOrderingHelpers.cs" />
     <Compile Include="SecureString.cs" />
     <Compile Include="ZipHelpers.cs" />
     <Compile Include="VersionStringExtensions.cs" />

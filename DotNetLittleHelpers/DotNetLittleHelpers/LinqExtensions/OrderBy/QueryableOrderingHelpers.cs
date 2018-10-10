@@ -103,6 +103,27 @@ namespace DotNetLittleHelpers
         }
 
         /// <summary>
+        /// Orders the query allowing to pass a parameter for asc or desc sort
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey">The type of the t key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keySelector">The key selector.</param>
+        /// <param name="descending">if set to <c>true</c> [descending].</param>
+        /// <returns>IOrderedQueryable&lt;T&gt;.</returns>
+        public static IOrderedQueryable<T> OrderBy<T, TKey>(this IQueryable<T> source, Expression<Func<T,TKey>> keySelector, bool descending)
+        {
+            if (descending)
+            {
+                return source.OrderByDescending(keySelector);
+            }
+            else
+            {
+                return source.OrderBy(keySelector);
+            }
+        }
+
+        /// <summary>
         /// Orders the collection based on a property with specified name
         /// </summary>
         /// <typeparam name="T"></typeparam>

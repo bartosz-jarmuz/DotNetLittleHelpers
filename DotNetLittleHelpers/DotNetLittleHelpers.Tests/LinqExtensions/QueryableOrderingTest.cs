@@ -57,6 +57,23 @@ namespace DotNetLittleHelpers.Tests
         }
 
         [Test]
+        public void TestOrderingWithParam()
+        {
+            var list = new List<TestObject>();
+            list.Add(new TestObject() {Number = 2, String = "b"});
+            list.Add(new TestObject() {Number = 5, String = "e", NullableDate = DateTime.Parse("2000-01-01")});
+            list.Add(new TestObject() {Number = 3, String = "c", NullableDate = DateTime.Parse("2222-01-01")});
+            list.Add(new TestObject() {Number = 1, String = "a", NullableDate = DateTime.Parse("2222-01-01")});
+            list.Add(new TestObject() {Number = 4, String = "d", NullableDate = DateTime.Parse("2000-01-01")});
+            var q = list.AsQueryable();
+
+            Assert.AreEqual(5, q.OrderBy(x=>x.String, true).First().Number);
+            Assert.AreEqual(1, q.OrderBy(x=>x.String, false).First().Number);
+
+
+        }
+
+        [Test]
         public void TestOrderingByMany()
         {
             var list = new List<TestObject>();
