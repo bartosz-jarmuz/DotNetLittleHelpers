@@ -66,6 +66,7 @@
     <Compile Include="LinqExtensions\MinMax.cs" />
     <Compile Include="LinqExtensions\MiscLinqExtensions.cs" />
     <Compile Include="IsNullExtensions.cs" />
+    <Compile Include="LinqExtensions\OrderRule.cs" />
     <Compile Include="MiscExtensions.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Try.cs" />
     <Compile Include="ObjectValidator\ObjectValidator.Func.cs" />
