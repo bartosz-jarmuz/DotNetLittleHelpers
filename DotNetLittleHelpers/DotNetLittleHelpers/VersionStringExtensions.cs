@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace DotNetLittleHelpers
 {
@@ -7,6 +8,17 @@ namespace DotNetLittleHelpers
     /// </summary>
     public static class VersionStringExtensions
     {
+
+        /// <summary>
+        /// Return the file version of the assembly based on the type and location
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetAssemblyFileVersion(this Type type)
+        {
+            return FileVersionInfo.GetVersionInfo(type.Assembly.Location).FileVersion;
+        }
+
         /// <summary>
         ///     Checks whether a version string is larger than a comparison one.
         ///     Expects a version in format "1.0.0.0", between 2 and 4 segments
