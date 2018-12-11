@@ -75,6 +75,7 @@
     <Compile Include="ObjectValidator\ObjectValidator.Func.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LinqExtensions\OrderBy\QueryableOrderingHelpers.cs" />
+    <Compile Include="Retrier.cs" />
     <Compile Include="SecureString.cs" />
     <Compile Include="ZipHelpers.cs" />
     <Compile Include="VersionStringExtensions.cs" />
