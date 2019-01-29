@@ -61,10 +61,10 @@ namespace DotNetLittleHelpers.Tests
         {
             var derived = new DerivedClass();
 
-            int value = derived.CallMethod<int>("MathMethod", 10, 5);
+            int value = derived.InvokeMethod<int>("MathMethod", 10, 5);
             Assert.AreEqual(5,value);
 
-            value = derived.CallMethod<int>("MathMethod", 5,10);
+            value = derived.InvokeMethod<int>("MathMethod", 5,10);
             Assert.AreEqual(-5, value);
         }
 
@@ -75,7 +75,7 @@ namespace DotNetLittleHelpers.Tests
             try
             {
 
-                int value = derived.CallMethod<int>("ThrowingMethod", 12);
+                int value = derived.InvokeMethod<int>("ThrowingMethod", 12);
                 Assert.Fail("Error expected.");
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace DotNetLittleHelpers.Tests
             try
             {
 
-                int value = derived.CallMethod<int>("MathMethod", 12, "aaa", true);
+                int value = derived.InvokeMethod<int>("MathMethod", 12, "aaa", true);
                 Assert.Fail("Error expected. ");
             }
             catch (Exception ex)
@@ -105,7 +105,7 @@ namespace DotNetLittleHelpers.Tests
             try
             {
 
-                 derived.CallMethod("AVoidMethod", 12, "aaa", true);
+                 derived.InvokeMethod("AVoidMethod", 12, "aaa", true);
                 Assert.Fail("Error expected. ");
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace DotNetLittleHelpers.Tests
 
             Assert.AreNotEqual("done", param.PublicStringProp);
 
-            derived.CallMethod("AVoidMethod", param);
+            derived.InvokeMethod("AVoidMethod", param);
 
             Assert.AreEqual("done", param.PublicStringProp);
         }

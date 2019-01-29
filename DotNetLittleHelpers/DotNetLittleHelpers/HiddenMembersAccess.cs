@@ -120,7 +120,7 @@ namespace DotNetLittleHelpers
         ///     propertyName - Couldn't find property {propertyName} in type
         ///     {sourceType.FullName}
         /// </exception>
-        public static void CallMethod(this object source, string methodName, params object[] args)
+        public static void InvokeMethod(this object source, string methodName, params object[] args)
         {
             source.ThrowIfNull(nameof(source));
 
@@ -162,7 +162,7 @@ namespace DotNetLittleHelpers
         ///     propertyName - Couldn't find property {propertyName} in type
         ///     {sourceType.FullName}
         /// </exception>
-        public static T CallMethod<T>(this object source, string methodName, params object[] args)
+        public static T InvokeMethod<T>(this object source, string methodName, params object[] args)
         {
             source.ThrowIfNull(nameof(source));
 
