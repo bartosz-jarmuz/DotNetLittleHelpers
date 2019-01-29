@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -125,7 +126,8 @@ namespace DotNetLittleHelpers
             source.ThrowIfNull(nameof(source));
 
             Type sourceType = source.GetType();
-            MethodInfo methodInfo = sourceType.GetMethod(methodName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            MethodInfo methodInfo = GetMethodByNameAndParams(sourceType, methodName, args);
+
             if (methodInfo == null)
             {
                 throw new ArgumentOutOfRangeException(nameof(methodName)
@@ -150,6 +152,53 @@ namespace DotNetLittleHelpers
             }
         }
 
+        private static MethodInfo GetMethodByNameAndParams(Type sourceType, string methodName, params object[] args)
+        {
+            List<MethodInfo> allMethods = sourceType.GetMethods(System.Reflection.BindingFlags.NonPublic |
+                                                              System.Reflection.BindingFlags.Public |
+                                                              System.Reflection.BindingFlags.Instance |
+                                                              BindingFlags.Static).Where(m => m.Name == methodName).ToList();
+            if (allMethods.Count == 0)
+            {
+                return null;
+            }
+
+            var possible = allMethods.Where(
+                m => m.GetParameters().Length == args.Length).ToList();
+            if (possible.Count == 0)
+            {
+                throw new ArgumentException($"Found {allMethods.Count} [{methodName}] method(s) on [{sourceType.FullName}], however none matches the provided arguments: [{String.Join(",", args.Select(x => x.GetType().Name))}]");
+            }
+
+            if (possible.Count == 1)
+            {
+                return possible.First();
+            }
+            else
+            {
+                foreach (MethodInfo methodInfo in possible)
+                {
+                    bool isMatch = true;
+                    for (int paramIndex = 0; paramIndex < methodInfo.GetParameters().Length; paramIndex++)
+                    {
+                        ParameterInfo parameterInfo = methodInfo.GetParameters()[paramIndex];
+                        Type argType = args[paramIndex].GetType();
+                        if (argType != parameterInfo.ParameterType)
+                        {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+
+                    if (isMatch)
+                    {
+                        return methodInfo;
+                    }
+                }
+                throw new ArgumentException($"Found {allMethods.Count} [{methodName}] method(s) on [{sourceType.FullName}], however none matches the provided arguments: [{String.Join(",", args.Select(x => x.GetType().Name))}]");
+            }
+        }
+
         /// <summary>
         ///     Calls a method which returns a T. For void methods use non-generic overload
         ///     <para />
@@ -167,7 +216,7 @@ namespace DotNetLittleHelpers
             source.ThrowIfNull(nameof(source));
 
             Type sourceType = source.GetType();
-            MethodInfo methodInfo = sourceType.GetMethod(methodName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            MethodInfo methodInfo = GetMethodByNameAndParams(sourceType, methodName, args);
             if (methodInfo == null)
             {
                 throw new ArgumentOutOfRangeException(nameof(methodName)

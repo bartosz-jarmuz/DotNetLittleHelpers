@@ -44,6 +44,16 @@ namespace DotNetLittleHelpers.Tests
             return a - b;
         }
 
+        private int MathMethod(int a, int b, string dummy)
+        {
+            return a - b;
+        }
+
+        private int MathMethod(int a, string dummy, int b)
+        {
+            return a + b;
+        }
+
         private void AVoidMethod(OtherClass oth)
         {
             oth.PublicStringProp = "done";
@@ -55,6 +65,18 @@ namespace DotNetLittleHelpers.Tests
     [TestFixture]
     public class HiddenMembersAccessTests
     {
+        [Test]
+        public void TestProps_MethodAccess_ComplexOverloads_Ok()
+        {
+            var derived = new DerivedClass();
+
+            int value = derived.InvokeMethod<int>("MathMethod", 10, 5, "boo");
+            Assert.AreEqual(5, value);
+
+            value = derived.InvokeMethod<int>("MathMethod", 10, "boo", 5);
+            Assert.AreEqual(15, value);
+        }
+
 
         [Test]
         public void TestProps_MethodAccess_Ok()
@@ -97,8 +119,8 @@ namespace DotNetLittleHelpers.Tests
             }
             catch (Exception ex)
             {
-                Assert.AreEqual("Method [MathMethod] in type DotNetLittleHelpers.Tests.DerivedClass does not have an overload which takes [3] parameters: [Int32,String,Boolean]", ex.Message);
-                Assert.IsInstanceOfType(ex, typeof(TargetParameterCountException));
+                Assert.AreEqual("Found 3 [MathMethod] method(s) on [DotNetLittleHelpers.Tests.DerivedClass], however none matches the provided arguments: [Int32,String,Boolean]", ex.Message);
+                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
 
             }
 
@@ -110,8 +132,8 @@ namespace DotNetLittleHelpers.Tests
             }
             catch (Exception ex)
             {
-                Assert.AreEqual("Method [AVoidMethod] in type DotNetLittleHelpers.Tests.DerivedClass does not have an overload which takes [3] parameters: [Int32,String,Boolean]", ex.Message);
-                Assert.IsInstanceOfType(ex, typeof(TargetParameterCountException));
+                Assert.AreEqual("Found 1 [AVoidMethod] method(s) on [DotNetLittleHelpers.Tests.DerivedClass], however none matches the provided arguments: [Int32,String,Boolean]", ex.Message);
+                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
 
             }
         }
