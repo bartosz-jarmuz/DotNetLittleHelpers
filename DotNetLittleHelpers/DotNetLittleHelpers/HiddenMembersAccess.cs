@@ -66,7 +66,7 @@ namespace DotNetLittleHelpers
         ///     <para />
         ///     This should be used in tests and hacks rather than 'proper' code
         /// </summary>
-        /// <param name="obj">The object.</param>
+        /// <param name="source">The object.</param>
         /// <param name="fieldName">Name of the field.</param>
         /// <param name="val">The value.</param>
         /// <exception cref="ArgumentOutOfRangeException">fieldName - Couldn't find field {fieldName} in type {sourceType.FullName}</exception>

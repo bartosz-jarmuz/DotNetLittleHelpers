@@ -18,7 +18,6 @@
         /// Returns true if the sequence contains one and only one element which meets the predicate. Otherwise return false
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TResult"></typeparam>
         /// <param name="source"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>

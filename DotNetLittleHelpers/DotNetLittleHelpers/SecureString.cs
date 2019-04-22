@@ -16,6 +16,11 @@ namespace DotNetLittleHelpers
     {
         static byte[] entropy = System.Text.Encoding.Unicode.GetBytes("Question everything.");
 
+        /// <summary>
+        /// Encrypts the string using DPAPI 
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>System.String.</returns>
         public static string EncryptString(this System.Security.SecureString input)
         {
             byte[] encryptedData = System.Security.Cryptography.ProtectedData.Protect(
@@ -25,6 +30,11 @@ namespace DotNetLittleHelpers
             return Convert.ToBase64String(encryptedData);
         }
 
+        /// <summary>
+        /// Decrypts the string using DPAPI
+        /// </summary>
+        /// <param name="encryptedData">The encrypted data.</param>
+        /// <returns>System.Security.SecureString.</returns>
         public static System.Security.SecureString DecryptString(this string encryptedData)
         {
             try
@@ -41,6 +51,11 @@ namespace DotNetLittleHelpers
             }
         }
 
+        /// <summary>
+        /// Determines whether [the specified secure password] is null or empty
+        /// </summary>
+        /// <param name="securePassword">The secure password.</param>
+        /// <returns><c>true</c> if [is null or empty] [the specified secure password]; otherwise, <c>false</c>.</returns>
         public static bool IsNullOrEmpty(this System.Security.SecureString securePassword)
         {
             if (securePassword == null)
@@ -56,6 +71,12 @@ namespace DotNetLittleHelpers
             return false;
         }
 
+        /// <summary>
+        /// To the insecure string.
+        /// </summary>
+        /// <param name="securePassword">The secure password.</param>
+        /// <returns>System.String.</returns>
+        /// <exception cref="ArgumentNullException">securePassword</exception>
         public static string ToInsecureString(this System.Security.SecureString securePassword)
         {
             if (securePassword == null)
@@ -73,6 +94,12 @@ namespace DotNetLittleHelpers
             }
         }
 
+        /// <summary>
+        /// To the secure string.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        /// <returns>System.Security.SecureString.</returns>
+        /// <exception cref="ArgumentNullException">password</exception>
         public static System.Security.SecureString ToSecureString(this string password)
         {
             if (password == null)

@@ -26,6 +26,7 @@
         /// <summary>
         /// Creates new instance
         /// </summary>
+        /// <param name="list">The list.</param>
         public RestrictedAccessList(IEnumerable<T> list) : base(list)
         {
         }
@@ -40,6 +41,7 @@
         /// <summary>
         /// Creates new instance
         /// </summary>
+        /// <param name="capacity">The number of elements that the new list can initially store.</param>
         public RestrictedAccessList(int capacity) : base(capacity)
         {
         }
@@ -71,7 +73,7 @@
         /// <summary>
         ///     Restricts the access to AddRange
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="collection"></param>
         [Obsolete(RestrictedAccessList<T>.RestrictionComment, true)]
         public new void AddRange(IEnumerable<T> collection)
         {
