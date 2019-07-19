@@ -89,10 +89,10 @@ namespace DotNetLittleHelpers.Tests
                 NestedObject = new PropertyStringTestObject()
             };
 
-            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject]",
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.LoggingExtensionsTests+PropertyStringTestObject]",
                 obj.GetPropertyInfoString(nameof(PropertyStringTestObject.Number), nameof(PropertyStringTestObject.Name), nameof(PropertyStringTestObject.SomeBoolean), nameof(PropertyStringTestObject.Id), nameof(PropertyStringTestObject.NestedObject)));
 
-            Assert.AreEqual($"Id: [{obj.Id}], Name: [Jim Beam], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject], Number: [{obj.Number}], SomeBoolean: [True]",
+            Assert.AreEqual($"Id: [{obj.Id}], Name: [Jim Beam], NestedObject: [DotNetLittleHelpers.Tests.LoggingExtensionsTests+PropertyStringTestObject], Number: [{obj.Number}], SomeBoolean: [True]",
                 obj.GetPropertyInfoString());
 
 
@@ -169,10 +169,10 @@ namespace DotNetLittleHelpers.Tests
                 NestedObject = new LoggingExtensionsTests.PropertyStringTestObject()
             };
 
-            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject]",
+            Assert.AreEqual($"Number: [{obj.Number}], Name: [{obj.Name}], SomeBoolean: [True], Id: [{obj.Id}], NestedObject: [DotNetLittleHelpers.Tests.LoggingExtensionsTests+PropertyStringTestObject]",
                 obj.GetPropertyInfoString(nameof(LoggingExtensionsTests.PropertyStringTestObject.Number), nameof(LoggingExtensionsTests.PropertyStringTestObject.Name), nameof(LoggingExtensionsTests.PropertyStringTestObject.SomeBoolean), nameof(LoggingExtensionsTests.PropertyStringTestObject.Id), nameof(LoggingExtensionsTests.PropertyStringTestObject.NestedObject)));
 
-            Assert.AreEqual($"Id: [{obj.Id}], Name: [Jim Beam], NestedObject: [DotNetLittleHelpers.Tests.MiscExtensionsTests+PropertyStringTestObject], Number: [{obj.Number}], SomeBoolean: [True]",
+            Assert.AreEqual($"Id: [{obj.Id}], Name: [Jim Beam], NestedObject: [DotNetLittleHelpers.Tests.LoggingExtensionsTests+PropertyStringTestObject], Number: [{obj.Number}], SomeBoolean: [True]",
                 obj.GetPropertyInfoString());
 
 
