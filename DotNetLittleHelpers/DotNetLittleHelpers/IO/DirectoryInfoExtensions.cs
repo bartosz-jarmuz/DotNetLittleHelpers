@@ -8,12 +8,15 @@ namespace DotNetLittleHelpers
     public static class DirectoryInfoExtensions
     {
         /// <summary>
-        /// Verifies whether the file exists at the moment
+        /// Verifies whether the folder exists at the moment of checking.<br/>
+        /// The .Exists property is a snapshot which is valid as of when the DirectoryInfo was created. <br/>
+        /// If the folder was deleted later on, that snapshot is not updated (until Refresh() is called)
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static bool Exists(this DirectoryInfo info)
+        public static bool ExistsAtTheMoment(this DirectoryInfo info)
         {
+            info.Refresh();
             return Directory.Exists(info.FullName);
         }
 

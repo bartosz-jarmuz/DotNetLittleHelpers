@@ -13,10 +13,13 @@ namespace DotNetLittleHelpers.Tests.IO
             Directory.CreateDirectory(path);
             var directoryInfo = new DirectoryInfo(path);
             Assert.IsTrue(Directory.Exists(directoryInfo.FullName));
-            Assert.IsTrue(directoryInfo.Exists());
+            Assert.IsTrue(directoryInfo.ExistsAtTheMoment());
             Directory.Delete(directoryInfo.FullName);
-            Assert.IsFalse(directoryInfo.Exists());
             Assert.IsFalse(Directory.Exists(directoryInfo.FullName));
+            Assert.IsTrue(directoryInfo.Exists);
+            Assert.IsFalse(directoryInfo.ExistsAtTheMoment());
+            Assert.IsFalse(directoryInfo.Exists);
+
         }
 
         [TestMethod]

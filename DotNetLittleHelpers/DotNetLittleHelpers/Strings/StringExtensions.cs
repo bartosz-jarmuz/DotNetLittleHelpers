@@ -49,23 +49,6 @@
             }
         }
 
-        private static string DomainMapper(Match match, ref bool invalid)
-        {
-            // IdnMapping class with default property values.
-            IdnMapping idn = new IdnMapping();
-
-            string domainName = match.Groups[2].Value;
-            try
-            {
-                domainName = idn.GetAscii(domainName);
-            }
-            catch (ArgumentException)
-            {
-                invalid = true;
-            }
-            return match.Groups[1].Value + domainName;
-        }
-
         /// <summary>
         /// Converts the first character to lower case - CultureInvariant
         /// </summary>
@@ -94,5 +77,21 @@
             return char.ToUpperInvariant(input[0]) + input.Substring(1);
         }
 
-      }
+        private static string DomainMapper(Match match, ref bool invalid)
+        {
+            // IdnMapping class with default property values.
+            IdnMapping idn = new IdnMapping();
+
+            string domainName = match.Groups[2].Value;
+            try
+            {
+                domainName = idn.GetAscii(domainName);
+            }
+            catch (ArgumentException)
+            {
+                invalid = true;
+            }
+            return match.Groups[1].Value + domainName;
+        }
+    }
 }

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DotNetLittleHelpers.Tests</RootNamespace>
     <AssemblyName>DotNetLittleHelpers.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,8 +53,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comparers\ComparersTests.cs" />
     <Compile Include="Comparers\ObjectComparisonTests.cs" />
-    <Compile Include="HiddenMembersAccessTests.cs" />
+    <Compile Include="Numbers\NumbersTests.cs" />
+    <Compile Include="Reflections\LoggingExtensionsTests.cs" />
+    <Compile Include="Reflections\HiddenMembersAccessTests.cs" />
     <Compile Include="EnumHelpersTests.cs" />
     <Compile Include="LinqExtensions\FilterBuilderTests.cs" />
     <Compile Include="LinqExtensions\QueryableOrderingTest.cs" />
@@ -64,12 +68,12 @@
     <Compile Include="IO\FileInfoExtensionsTests.cs" />
     <Compile Include="LinqExtensions\MinMaxTests.cs" />
     <Compile Include="IsNullExtensionsTest.cs" />
-    <Compile Include="ObjectValidationTests.Try.cs" />
-    <Compile Include="ObjectValidationTests.cs" />
-    <Compile Include="FileSizeExtensionsTests.cs" />
-    <Compile Include="VersionStringExtensionsTests.cs" />
-    <Compile Include="StringExtensionsTests.cs" />
-    <Compile Include="MiscExtensionsTests.cs" />
+    <Compile Include="ObjectValidation\ObjectValidationTests.Try.cs" />
+    <Compile Include="ObjectValidation\ObjectValidationTests.cs" />
+    <Compile Include="Numbers\FileSizeExtensionsTests.cs" />
+    <Compile Include="Strings\VersionStringExtensionsTests.cs" />
+    <Compile Include="Strings\StringExtensionsTests.cs" />
+    <Compile Include="LinqExtensions\MiscLinqExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

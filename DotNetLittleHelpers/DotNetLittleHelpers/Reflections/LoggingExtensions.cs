@@ -1,24 +1,16 @@
-﻿namespace DotNetLittleHelpers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+
+namespace DotNetLittleHelpers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-
-    public static class MiscExtensions
+    /// <summary>
+    /// Some extension methods which can be useful for logging/debugging
+    /// </summary>
+    public static class LoggingExtensions
     {
-        /// <summary>
-        ///     Gets string like st, nd, rd, th for a given number
-        /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public static string GetOrdinalNumber(this int number)
-        {
-            string suffix = number.GetOrdinalSuffix();
-            return number + suffix;
-        }
-
         /// <summary>
         /// <para>Get a string of names and values of properties (for logging/display purpose). The format is as follows:</para>
         /// "NameProperty: [JimBeam], SomethingNUll: [*NULL*], NonExistentProperty: [*NO SUCH PROPERTY*], SomeBooleanProperty: [True]"  <para/>
@@ -42,7 +34,7 @@
             {
                 props.Add(propertyName, type.GetProperty(propertyName));
             }
-            MiscExtensions.AppendPropertyString(source, props, sb);
+            AppendPropertyString(source, props, sb);
 
 
 
@@ -62,13 +54,13 @@
             if (source == null)
             {
                 return null;
-            } 
+            }
 
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
 
-            Dictionary<string, PropertyInfo> props = type.GetProperties().OrderBy(x=>x.Name).ToDictionary(p => p.Name, p => p);
-            MiscExtensions.AppendPropertyString(source, props, sb);
+            Dictionary<string, PropertyInfo> props = type.GetProperties().OrderBy(x => x.Name).ToDictionary(p => p.Name, p => p);
+            AppendPropertyString(source, props, sb);
 
 
             return sb.ToString();
@@ -88,9 +80,9 @@
             }
             Type type = source.GetType();
             StringBuilder sb = new StringBuilder();
-           Dictionary<string, PropertyInfo> props = type.GetProperties().Where(x=>x.Name.ToLowerInvariant().Contains("name") || x.Name.EndsWith("Id", StringComparison.InvariantCultureIgnoreCase)).OrderBy(x => x.Name).ToDictionary(p=>p.Name, p=>p);
+            Dictionary<string, PropertyInfo> props = type.GetProperties().Where(x => x.Name.ToLowerInvariant().Contains("name") || x.Name.EndsWith("Id", StringComparison.InvariantCultureIgnoreCase)).OrderBy(x => x.Name).ToDictionary(p => p.Name, p => p);
 
-            MiscExtensions.AppendPropertyString(source, props, sb);
+            AppendPropertyString(source, props, sb);
 
             return sb.ToString();
         }
@@ -113,36 +105,6 @@
                 {
                     sb.Append(", ");
                 }
-            }
-        }
-
-        /// <summary>
-        ///     Gets string like st, nd, rd, th for a given number
-        /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public static string GetOrdinalSuffix(this int number)
-        {
-            if (number <= 0) return "";
-
-            switch (number % 100)
-            {
-                case 11:
-                case 12:
-                case 13:
-                    return "th";
-            }
-
-            switch (number % 10)
-            {
-                case 1:
-                    return "st";
-                case 2:
-                    return "nd";
-                case 3:
-                    return "rd";
-                default:
-                    return "th";
             }
         }
     }
