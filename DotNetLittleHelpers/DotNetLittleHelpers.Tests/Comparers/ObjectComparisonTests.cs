@@ -4,6 +4,9 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
+using System.Globalization;
+using System.Threading;
+
 namespace DotNetLittleHelpers.Tests
 {
     #region Using
@@ -572,6 +575,7 @@ namespace DotNetLittleHelpers.Tests
         [Test]
         public void PropertiesAreEqualTest_NestedObject_WithRecursion_DifferentValues()
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             this.GetTestObject_SimilarNestedObjects(out TestObject obj1, obj2: out TestObject obj2);
             obj1.NestedObject.DecimalNumber = 66.6M;
             obj1.NestedObject.SubNestedObject = new SecondObject() {DecimalNumber = 3};
@@ -588,7 +592,7 @@ namespace DotNetLittleHelpers.Tests
             catch (AggregateException ex)
             {
                 Assert.AreEqual(
-                    "Object: [NestedObject]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [66,6]. Target: [34,2]",
+                    "Object: [NestedObject]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [66.6]. Target: [34.2]",
                     ex.InnerExceptions.Single().Message);
             }
 
@@ -610,10 +614,10 @@ namespace DotNetLittleHelpers.Tests
                 Assert.AreEqual(3, ex.InnerExceptions.Count);
 
                 Assert.AreEqual(
-                    "Type: [TestObject]. Property: [NullableDate]. Source: [01.01.0001 00:00:00]. Target: [NULL]",
+                    "Type: [TestObject]. Property: [NullableDate]. Source: [01/01/0001 00:00:00]. Target: [NULL]",
                     ex.InnerExceptions[0].Message);
                 Assert.AreEqual(
-                    "Object: [NestedObject]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [66,6]. Target: [34,2]",
+                    "Object: [NestedObject]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [66.6]. Target: [34.2]",
                     ex.InnerExceptions[1].Message);
                 Assert.AreEqual(
                     "Object: [SubNestedObject]. Type: [SecondObject]. Property: [DecimalNumber]. Source: [2]. Target: [3]",
