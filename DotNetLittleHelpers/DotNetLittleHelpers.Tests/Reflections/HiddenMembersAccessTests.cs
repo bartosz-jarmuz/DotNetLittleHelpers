@@ -12,7 +12,9 @@ namespace DotNetLittleHelpers.Tests
         internal int InternalIntProp { get; set; } = 2;
         public int PublicIntProp { get; set; } = 3;
 
+#pragma warning disable 414
         private double privateDoubleField = 1.1;
+#pragma warning restore 414
         internal double internalDoubleField =2.2;
         public double publicDoubleField =3.3;
     }
