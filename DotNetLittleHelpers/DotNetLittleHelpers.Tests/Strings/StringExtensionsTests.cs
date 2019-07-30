@@ -53,5 +53,17 @@ namespace DotNetLittleHelpers.Tests
             Assert.AreEqual(null, nullString.ToUpperFirstChar());
         }
 
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
+        public void TrimEndTest()
+        {
+            Assert.AreEqual("Exceed", "Exceeded".TrimEnd("ed"));
+            Assert.AreEqual("Exceeded", "Exceeded".TrimEnd("poo"));
+            Assert.AreEqual("ExceedED", "ExceedED".TrimEnd("ed"));
+            Assert.AreEqual("Exceed", "ExceedED".TrimEnd("ed", StringComparison.OrdinalIgnoreCase));
+            string nullString = null;
+            Assert.AreEqual(null, nullString.TrimEnd("zxc"));
+            Assert.AreEqual("zxc", "zxc".TrimEnd(nullString));
+        }
+
     }
 }

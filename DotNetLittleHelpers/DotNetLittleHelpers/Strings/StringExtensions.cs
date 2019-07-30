@@ -77,6 +77,24 @@
             return char.ToUpperInvariant(input[0]) + input.Substring(1);
         }
 
+        /// <summary>
+        /// Trims the substring from the end of the string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="suffixToRemove">The suffix to remove.</param>
+        /// <param name="comparisonType">Type of the comparison.</param>
+        /// <returns>System.String.</returns>
+        public static string TrimEnd(this string input, string suffixToRemove, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+
+            if (input != null && suffixToRemove != null && input.EndsWith(suffixToRemove, comparisonType))
+            {
+                return input.Substring(0, input.Length - suffixToRemove.Length);
+            }
+
+            return input;
+        }
+
         private static string DomainMapper(Match match, ref bool invalid)
         {
             // IdnMapping class with default property values.
