@@ -80,6 +80,7 @@
     <Compile Include="LinqExtensions\OrderBy\QueryableOrderingHelpers.cs" />
     <Compile Include="Retrier.cs" />
     <Compile Include="Strings\SecureString.cs" />
+    <Compile Include="ParameterSet.cs" />
     <Compile Include="ZipHelpers.cs" />
     <Compile Include="Strings\VersionStringExtensions.cs" />
     <Compile Include="Strings\StringExtensions.cs" />
