@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Shouldly;
 
 namespace DotNetLittleHelpers.Tests
@@ -8,6 +9,7 @@ namespace DotNetLittleHelpers.Tests
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass()]
     public class ParameterClassTests
     {
+
         public class PersonParamSet : ParameterSet
         {
             public PersonParamSet()
@@ -114,6 +116,54 @@ namespace DotNetLittleHelpers.Tests
             PersonParamSet destringified = new PersonParamSet(stringified);
             destringified.ThrowIfPublicPropertiesNotEqual(person, ignoreProperties: new []{ nameof(PersonParamSet.OriginalParameterInputString), nameof(PersonParamSet.OriginalParameterCollection) });
             stringified.ShouldBe("--Name=\"John \"FunnyGuy\" Doe\" ");
+        }
+
+
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
+        public void Test_GetParameterCollection()
+        {
+            PersonParamSet person = new PersonParamSet
+            {
+                Name = "John \"FunnyGuy\" Doe",
+                Happy = true,
+                NullableTwo = 666
+                
+            };
+
+            string stringified = person.SaveAsParameters();
+            PersonParamSet destringified = new PersonParamSet(stringified);
+
+            var onlyExplicitCollection = destringified.GetParameterCollection(true, true);
+
+            onlyExplicitCollection.ShouldSatisfyAllConditions(
+                ()=> onlyExplicitCollection.Count.ShouldBe(3),
+                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("Name", "John \"FunnyGuy\" Doe")),
+                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("Happy", "True")),
+                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("NullableTwo", "666"))
+
+
+            );
+
+            var allParams = destringified.GetParameterCollection();
+
+            allParams.ShouldSatisfyAllConditions(
+                () => allParams.Count.ShouldBe(12),
+                
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Email", null)),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Name", "John \"FunnyGuy\" Doe")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("LastName", null)),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Path", null)),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Age", "0")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Happy", "True")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Drunk", "False")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Rich", "False")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Weight", "0")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("NullableTwo","666")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("NullableOne",null)),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("RegisteredDate", "0001-01-01T00:00:00.0000000"))
+            );
+
+
         }
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]

@@ -94,6 +94,26 @@ namespace DotNetLittleHelpers
         public string SaveAsParameters(bool skipNullAndEmpty = true, bool skipDefaultsForValueTypes = true)
         {
             StringBuilder sb = new StringBuilder();
+           
+            TraverseParameters((k, v) => sb.Append($"--{k}=\"{v}\" "), skipNullAndEmpty, skipDefaultsForValueTypes);
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets all the parameter properties for this class. <br/>
+        /// Parameter properties are the instance properties with public getter and setter - i.e. all the properties which can be assigned by passing them as argument string
+        /// </summary>
+        public IReadOnlyCollection<KeyValuePair<string, string>> GetParameterCollection(bool skipNullAndEmpty = false, bool skipDefaultsForValueTypes = false)
+        {
+            var list = new List<KeyValuePair<string, string>>();
+            TraverseParameters((k, v) => list.Add(new KeyValuePair<string, string>(k, v?.ToString())), skipNullAndEmpty, skipDefaultsForValueTypes);
+
+            return list.AsReadOnly();
+        }
+
+        private void TraverseParameters(Action<string, string> outputParameters, bool skipNullAndEmpty, bool skipDefaultsForValueTypes)
+        {
             var properties = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
 
             foreach (PropertyInfo propertyInfo in properties)
@@ -111,7 +131,7 @@ namespace DotNetLittleHelpers
                     continue;
                 }
 
-                if (skipNullAndEmpty && (value == null || string.IsNullOrEmpty(value.ToString())) && (!propertyInfo.PropertyType.IsValueType || Nullable.GetUnderlyingType(propertyInfo.PropertyType) != null) )
+                if (skipNullAndEmpty && (value == null || string.IsNullOrEmpty(value.ToString())) && (!propertyInfo.PropertyType.IsValueType || Nullable.GetUnderlyingType(propertyInfo.PropertyType) != null))
                 {
                     continue;
                 }
@@ -119,27 +139,25 @@ namespace DotNetLittleHelpers
                 if (skipDefaultsForValueTypes && propertyInfo.PropertyType.IsValueType)
                 {
                     var defaultValue = Activator.CreateInstance(propertyInfo.PropertyType);
-                    
+
                     if (value != null && value.Equals(defaultValue))
                     {
                         continue;
                     }
-                
+
                 }
 
                 if (value is DateTime dt)
                 {
-                    sb.Append($"--{propertyInfo.Name}=\"{dt.ToString("O")}\" ");
+                    outputParameters(propertyInfo.Name, dt.ToString("O"));
                 }
                 else
                 {
-                    sb.Append($"--{propertyInfo.Name}=\"{value}\" ");
+                    outputParameters(propertyInfo.Name, value?.ToString());
                 }
 
 
             }
-
-            return sb.ToString();
         }
 
         private static void SetPropertyValueFromString<T>(T objectToAssign, PropertyInfo property, string value)
