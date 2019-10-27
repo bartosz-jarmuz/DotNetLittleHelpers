@@ -9,9 +9,25 @@ namespace DotNetLittleHelpers.Tests
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass()]
     public class ParameterClassTests
     {
+        public enum Genders
+        {
+            Female,
+            Male
+        }
+
+        public enum Races
+        {
+            Yellow,
+            Black,
+            White,
+            Pink
+        }
+
 
         public class PersonParamSet : ParameterSet
         {
+            
+
             public PersonParamSet()
             {
             }
@@ -24,6 +40,8 @@ namespace DotNetLittleHelpers.Tests
             {
             }
 
+            public Genders Gender { get; set; }
+
             public string Name { get; set; }
             public string LastName { get; set; }
 
@@ -35,6 +53,7 @@ namespace DotNetLittleHelpers.Tests
             public decimal Weight { get; set; }
 
             public string Path { get; set; }
+            public Races Race  { get; set; }
 
             public DateTime RegisteredDate { get; set; }
 
@@ -42,6 +61,8 @@ namespace DotNetLittleHelpers.Tests
 
             public bool Drunk { get; set; }
             public bool Rich { get; set; }
+
+
 
             public void SetPrivateInstanceProperty(bool val)
             {
@@ -57,7 +78,7 @@ namespace DotNetLittleHelpers.Tests
         static readonly string DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
         static readonly DateTime DateTimeStamp = DateTime.Now;
 
-        readonly string simplePersonParametersInput = $"-Email john@doe.com -Age 34 --happy -RegisteredDate={DateTimeStamp:O} --drunk -name=\"John \"FunnyGuy\" Doe\" -nullableTwo=666 /Path=\"C:\\My Home\\Living-Room\" --weight=123{DecimalSeparator}43 -NonExistentParameter=HahaNothing";
+        readonly string simplePersonParametersInput = $"-Email john@doe.com -Age 34 --happy --Gender=1 -Race=White -RegisteredDate={DateTimeStamp:O} --drunk -name=\"John \"FunnyGuy\" Doe\" -nullableTwo=666 /Path=\"C:\\My Home\\Living-Room\" --weight=123{DecimalSeparator}43 -NonExistentParameter=HahaNothing";
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void Test_Stringify_RoundTrip()
@@ -68,6 +89,7 @@ namespace DotNetLittleHelpers.Tests
                 Age = 24,
                 NullableOne = 1,
                 Drunk = true,
+                Gender = Genders.Male,
                 Email = "jdoe@does.com",
                 Path = "Somewhere Over The Rain...forest",
                 RegisteredDate = new DateTime(1988,02,28)
@@ -127,7 +149,7 @@ namespace DotNetLittleHelpers.Tests
                 Name = "John \"FunnyGuy\" Doe",
                 Happy = true,
                 NullableTwo = 666
-                
+,Race                = Races.White
             };
 
             string stringified = person.SaveAsParameters();
@@ -136,10 +158,11 @@ namespace DotNetLittleHelpers.Tests
             var onlyExplicitCollection = destringified.GetParameterCollection(true, true);
 
             onlyExplicitCollection.ShouldSatisfyAllConditions(
-                ()=> onlyExplicitCollection.Count.ShouldBe(3),
+                ()=> onlyExplicitCollection.Count.ShouldBe(4),
                 () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("Name", "John \"FunnyGuy\" Doe")),
                 () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("Happy", "True")),
-                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("NullableTwo", "666"))
+                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("NullableTwo", "666")),
+                () => onlyExplicitCollection.ShouldContain(new KeyValuePair<string, string>("Race", "White"))
 
 
             );
@@ -147,7 +170,7 @@ namespace DotNetLittleHelpers.Tests
             var allParams = destringified.GetParameterCollection();
 
             allParams.ShouldSatisfyAllConditions(
-                () => allParams.Count.ShouldBe(12),
+                () => allParams.Count.ShouldBe(14),
                 
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("Email", null)),
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("Name", "John \"FunnyGuy\" Doe")),
@@ -160,6 +183,8 @@ namespace DotNetLittleHelpers.Tests
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("Weight", "0")),
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("NullableTwo","666")),
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("NullableOne",null)),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Gender", "Female")),
+                () => allParams.ShouldContain(new KeyValuePair<string, string>("Race", "White")),
                 () => allParams.ShouldContain(new KeyValuePair<string, string>("RegisteredDate", "0001-01-01T00:00:00.0000000"))
             );
 
@@ -246,6 +271,8 @@ namespace DotNetLittleHelpers.Tests
                 () => person.Rich.ShouldBe(false),
                 () => person.LastName.ShouldBe(null),
                 () => person.Weight.ShouldBe(123.43M),
+                () => person.Gender.ShouldBe(Genders.Male),
+                () => person.Race.ShouldBe(Races.White),
                 () => person.NullableOne.ShouldBe(null)
             );
         }
