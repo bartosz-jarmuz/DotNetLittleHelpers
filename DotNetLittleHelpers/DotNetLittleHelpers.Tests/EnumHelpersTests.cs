@@ -10,6 +10,7 @@ namespace DotNetLittleHelpers.Tests
     {
         private enum WeekDays
         {
+            [System.ComponentModel.Description("The happy day")]
             Monday,
             Tuesday,
             Wednesday,
@@ -22,9 +23,9 @@ namespace DotNetLittleHelpers.Tests
         [TestMethod]
         public void TestIncrease()
         {
-            Assert.AreEqual(WeekDays.Friday, EnumHelper.IncreaseValue(WeekDays.Tuesday, 3));
+            Assert.AreEqual(WeekDays.Friday, WeekDays.Tuesday.IncreaseValue(3));
             Assert.AreEqual(WeekDays.Tuesday, EnumHelper.IncreaseValue(WeekDays.Tuesday, 0));
-            Assert.AreEqual(WeekDays.Sunday, EnumHelper.IncreaseValue(WeekDays.Tuesday, 22));
+            Assert.AreEqual(WeekDays.Sunday, WeekDays.Tuesday.IncreaseValue(22));
             try
             {
                 EnumHelper.IncreaseValue(WeekDays.Tuesday, 22, true);
@@ -53,6 +54,14 @@ namespace DotNetLittleHelpers.Tests
             {
                 Assert.AreEqual(ex.Message, "The modifier 22 exceeds the minimum possible value for WeekDays when applied on Tuesday");
             }
+        }
+
+        [TestMethod]
+        public void TestGetDescription()
+        {
+            Assert.AreEqual("The happy day", WeekDays.Monday.GetDescription());
+            Assert.AreEqual("Tuesday", WeekDays.Tuesday.GetDescription());
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace DotNetLittleHelpers
     /// <summary>
     /// Class EnumHelper.
     /// </summary>
-    public class EnumHelper
+    public static class EnumHelper
     {
         /// <summary>
         /// Decreases the value of an enum by the specified number of steps
@@ -20,7 +21,7 @@ namespace DotNetLittleHelpers
         /// <param name="throwIfMinValueExceeded">If set to true, if the modified value exceeds the maximum value of the enum, an error is thrown. Otherwise max is returned</param>
         /// <returns>T.</returns>
         /// <exception cref="ArgumentException">The requested type [{typeof(T).Name}</exception>
-        public static T DecreaseValue<T>(T theEnum, uint modifier, bool throwIfMinValueExceeded = false) where T : struct, IConvertible
+        public static T DecreaseValue<T>(this T theEnum, uint modifier, bool throwIfMinValueExceeded = false) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
             {
@@ -64,7 +65,7 @@ namespace DotNetLittleHelpers
         /// <param name="throwIfMaxValueExceeded">If set to true, if the modified value exceeds the maximum value of the enum, an error is thrown. Otherwise max is returned</param>
         /// <returns>T.</returns>
         /// <exception cref="ArgumentException">The requested type [{typeof(T).Name}</exception>
-        public static T IncreaseValue<T>(T theEnum, uint modifier, bool throwIfMaxValueExceeded = false) where T : struct, IConvertible
+        public static T IncreaseValue<T>(this T theEnum, uint modifier, bool throwIfMaxValueExceeded = false) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
             {
@@ -103,5 +104,28 @@ namespace DotNetLittleHelpers
 
             return (T)Enum.Parse(typeof(T), value.ToString());
         }
+
+        /// <summary>
+        /// Gets a description of an enum field value
+        /// </summary>
+        /// <param name="enumVal">The enum value</param>
+        /// <returns>The attribute of type T that exists on the enum value</returns>
+        public static string GetDescription(this Enum enumVal) 
+        {
+            var enumType = enumVal.GetType();
+            var memberInfos = enumType.GetMember(enumVal.ToString());
+            var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
+            var valueAttributes =
+                enumValueMemberInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (valueAttributes.Any())
+            {
+                return ((DescriptionAttribute)valueAttributes[0]).Description;
+            }
+            else
+            {
+                return enumVal.ToString();
+            }
+        }
     }
 }
+
