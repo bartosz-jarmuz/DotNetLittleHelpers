@@ -413,6 +413,25 @@ namespace DotNetLittleHelpers.Tests
         }
 
         [Test]
+        public void PropertiesAreEqualTest_AreDifferent_IgnoreWorks()
+        {
+            var obj1 = new TestObject()
+            {
+                Number = 2,
+                Text = "Test",
+            };
+            var obj2 = new TestObject()
+            {
+                Number = 2,
+                Text = "Test2",
+            };
+
+            Assert.IsFalse(obj1.PropertiesAreEqual(obj2, BindingFlags.Public | BindingFlags.Instance));
+            obj2.ThrowIfPublicPropertiesNotEqual(obj1, ignoreProperties: new []{"Text"});
+            obj1.ThrowIfPublicPropertiesNotEqual(obj2, ignoreProperties: new []{ "Text" });
+        }
+
+        [Test]
         public void PropertiesAreEqualTest_AreDifferent()
         {
             var obj1 = new TestObject()

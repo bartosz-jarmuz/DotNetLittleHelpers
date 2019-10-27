@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Shouldly;
 
@@ -59,7 +60,7 @@ namespace DotNetLittleHelpers.Tests
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void Test_Stringify_RoundTrip()
         {
-            var person = new PersonParamSet
+            PersonParamSet person = new PersonParamSet
             {
                 Weight = 134.2M, 
                 Age = 24,
@@ -69,16 +70,17 @@ namespace DotNetLittleHelpers.Tests
                 Path = "Somewhere Over The Rain...forest",
                 RegisteredDate = new DateTime(1988,02,28)
             };
-            var stringified = person.SaveAsParameters();
-            var destringified = new PersonParamSet(stringified);
+            string stringified = person.SaveAsParameters();
+            stringified.ShouldNotContain(nameof(ParameterSet.OriginalParameterInputString));
+            PersonParamSet destringified = new PersonParamSet(stringified);
 
-            destringified.ThrowIfPublicPropertiesNotEqual(person);
+            destringified.ThrowIfPublicPropertiesNotEqual(person, ignoreProperties: new []{ nameof(PersonParamSet.OriginalParameterInputString), nameof(PersonParamSet.OriginalParameterCollection) });
         }
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void Test_Stringify_RoundTrip_OnePropOnly_TestIgnorable()
         {
-            var person = new PersonParamSet
+            PersonParamSet person = new PersonParamSet
             {
                 Name = "John \"FunnyGuy\" Doe"
             };
@@ -86,8 +88,10 @@ namespace DotNetLittleHelpers.Tests
             PersonParamSet.PublicStaticProperty = "PublicStaticProperty Value";
             person.SetPrivateInstanceProperty(true);
 
-            var stringified = person.SaveAsParameters();
-            var destringified = new PersonParamSet(stringified);
+            string stringified = person.SaveAsParameters();
+            stringified.ShouldNotContain(nameof(ParameterSet.OriginalParameterInputString));
+
+            PersonParamSet destringified = new PersonParamSet(stringified);
 
             destringified.ShouldNotBeSameAs(person);
             destringified.Name.ShouldBe("John \"FunnyGuy\" Doe");
@@ -100,41 +104,81 @@ namespace DotNetLittleHelpers.Tests
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void Test_Stringify_RoundTrip_OnePropOnly()
         {
-            var person = new PersonParamSet
+            PersonParamSet person = new PersonParamSet
             {
                 Name = "John \"FunnyGuy\" Doe"
             };
 
-            var stringified = person.SaveAsParameters();
+            string stringified = person.SaveAsParameters();
 
-            var destringified = new PersonParamSet(stringified);
-            destringified.ThrowIfPublicPropertiesNotEqual(person);
+            PersonParamSet destringified = new PersonParamSet(stringified);
+            destringified.ThrowIfPublicPropertiesNotEqual(person, ignoreProperties: new []{ nameof(PersonParamSet.OriginalParameterInputString), nameof(PersonParamSet.OriginalParameterCollection) });
             stringified.ShouldBe("--Name=\"John \"FunnyGuy\" Doe\" ");
         }
+
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
+        public void TestLoadSimplePerson_CheckParameterSet()
+        {
+            string[] args = ParameterSet.Parser.Split("-Email john@doe.com -Age 34 --happy");
+
+            PersonParamSet person1 = new PersonParamSet();
+            person1.LoadParameters(args);
+            person1.OriginalParameterCollection.ShouldBe(
+                new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("Email", "john@doe.com"),
+                    new KeyValuePair<string, string>("Age", "34"),
+                    new KeyValuePair<string, string>("happy", "True"),
+                }
+            );
+
+
+            PersonParamSet person2 = new PersonParamSet(args);
+            person2.OriginalParameterCollection.ShouldBe(
+                new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("Email", "john@doe.com"),
+                    new KeyValuePair<string, string>("Age", "34"),
+                    new KeyValuePair<string, string>("happy", "True"),
+
+                }
+            );
+        }
+
 
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void TestLoadSimplePerson_LoadMethod()
         {
-            var args = ParameterSet.Parser.Split(this.simplePersonParametersInput);
+            string[] args = ParameterSet.Parser.Split(this.simplePersonParametersInput);
 
-            var person = new PersonParamSet();
+            PersonParamSet person = new PersonParamSet();
             person.LoadParameters(args);
+            AssertSimplePerson(person);
+
+            person = new PersonParamSet();
+            person.LoadParameters(this.simplePersonParametersInput);
             AssertSimplePerson(person);
         }
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void TestLoadSimplePerson_Constructor()
         {
-            var args = ParameterSet.Parser.Split(this.simplePersonParametersInput);
-            var person = new PersonParamSet(args);
+            string[] args = ParameterSet.Parser.Split(this.simplePersonParametersInput);
+
+            PersonParamSet person = new PersonParamSet(args);
+            person.OriginalParameterInputString.ShouldBe(string.Join(" ", args));
+
             AssertSimplePerson(person);
         }
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod()]
         public void TestLoadSimplePerson_Constructor_FromString()
         {
-            var person = new PersonParamSet(this.simplePersonParametersInput);
+            PersonParamSet person = new PersonParamSet(this.simplePersonParametersInput);
+            
+            person.OriginalParameterInputString.ShouldBe(this.simplePersonParametersInput);
+
             AssertSimplePerson(person);
         }
 

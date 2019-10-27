@@ -87,6 +87,7 @@
     <Compile Include="Comparers\VersionStringComparer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="Properties\DotNetLittleHelpersKey.snk" />
     <None Include="Properties\DotNetLittleHelpers.nuspec" />
   </ItemGroup>

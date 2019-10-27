@@ -17,6 +17,8 @@ namespace DotNetLittleHelpers
     /// </summary>
     public abstract class ParameterSet
     {
+        
+
         /// <summary>
         /// Creates a new instance of the class
         /// </summary>
@@ -31,6 +33,7 @@ namespace DotNetLittleHelpers
         /// <param name="args"></param>
         protected ParameterSet(string[] args)
         {
+            this.OriginalParameterInputString = string.Join(" ", args);
             this.LoadParameters(args);
         }
 
@@ -38,10 +41,21 @@ namespace DotNetLittleHelpers
         /// Creates a new instance and loads the parameters provided in the argument string of constructor
         /// </summary>
         /// <param name="argumentString"></param>
-        protected ParameterSet(string argumentString)
+        protected ParameterSet(string argumentString) //do not chain constructors or you will break the preservation of the original input string
         {
+            this.OriginalParameterInputString = argumentString;
             this.LoadParameters(Parser.Split(argumentString));
         }
+
+        /// <summary>
+        /// Gets the input string as it was provided to the parameter class
+        /// </summary>
+        public string OriginalParameterInputString { get; private set; } = "";
+
+        /// <summary>
+        /// The collection of parameters recognized from the input string (not including default values that the parameter set class might contain)
+        /// </summary>
+        public  IReadOnlyCollection<KeyValuePair<string, string>> OriginalParameterCollection { get; private set; }
 
         /// <summary>
         /// Loads parameter values to the public instance properties of this class
@@ -49,6 +63,7 @@ namespace DotNetLittleHelpers
         /// <param name="argumentString"></param>
         public void LoadParameters(string argumentString)
         {
+            this.OriginalParameterInputString = argumentString;
             this.LoadParameters(Parser.Split(argumentString));
         }
 
@@ -58,11 +73,12 @@ namespace DotNetLittleHelpers
         /// <param name="args"></param>
         public void LoadParameters(string[] args)
         {
-            ICollection<KeyValuePair<string, string>> parameters = Parser.GetParameters(args);
+            this.OriginalParameterInputString = string.Join(" ", args);
+            this.OriginalParameterCollection = Parser.GetParameters(args);
 
             var properties = this.GetType().GetProperties();
 
-            foreach (KeyValuePair<string, string> keyValuePair in parameters)
+            foreach (KeyValuePair<string, string> keyValuePair in this.OriginalParameterCollection)
             {
                 var matchingProperty = properties.FirstOrDefault(x => x.Name.Equals(keyValuePair.Key, StringComparison.OrdinalIgnoreCase));
                 if (matchingProperty != null)
@@ -175,7 +191,7 @@ namespace DotNetLittleHelpers
             /// The collection might contain multiple identical keys - especially in case of positional parameters, where key is always empty string
             /// </summary>
             /// <param name="argumentString">The argument string.</param>
-            public static ICollection<KeyValuePair<string, string>> GetParameters(string argumentString)
+            public static IReadOnlyCollection<KeyValuePair<string, string>> GetParameters(string argumentString)
             {
                 return GetParameters(Split(argumentString));
             }
@@ -188,7 +204,7 @@ namespace DotNetLittleHelpers
             /// The collection might contain multiple identical keys - especially in case of positional parameters, where key is always empty string
             /// </summary>
             /// <param name="args">The arguments.</param>
-            public static ICollection<KeyValuePair<string, string>> GetParameters(string[] args)
+            public static IReadOnlyCollection<KeyValuePair<string, string>> GetParameters(string[] args)
             {
                 if (args == null)
                 {
@@ -259,7 +275,7 @@ namespace DotNetLittleHelpers
                     parameters.Add(new KeyValuePair<string, string>(parameter, "True"));
                 }
 
-                return parameters;
+                return parameters.AsReadOnly();
             }
 
 

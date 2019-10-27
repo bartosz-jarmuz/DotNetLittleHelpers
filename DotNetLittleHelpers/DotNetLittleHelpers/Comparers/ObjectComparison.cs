@@ -147,7 +147,7 @@ namespace DotNetLittleHelpers
         public static void ThrowIfPublicPropertiesNotEqual<T>(this T source, T target, bool recursiveValidation = false, bool ignoreComplexTypes = false, IEnumerable<string> ignoreProperties = null,
                                                               IEnumerable<string> includeProperties = null) where T : class
         {
-            source.PropertiesAreEqual(target, BindingFlags.Public | BindingFlags.Instance, recursiveValidation: recursiveValidation, ignoreComplexTypes: ignoreComplexTypes, throwIfNotEqual: true);
+            source.PropertiesAreEqual(target, BindingFlags.Public | BindingFlags.Instance, recursiveValidation: recursiveValidation, ignoreComplexTypes: ignoreComplexTypes, throwIfNotEqual: true, ignoreProperties: ignoreProperties, includeProperties:includeProperties);
         }
 
         private static void CompareProperties<T>(T source, T target, BindingFlags propertyBindingFlags, bool recursiveValidation, bool ignoreComplexTypes, List<string> validationErrorsList, string sourceObjectName,
